@@ -1,0 +1,6 @@
+/mnt/g10/cmake/build/CMakeFiles/wiscAFS_client.dir
+/mnt/g10/cmake/build/CMakeFiles/wiscAFS_server.dir
+/mnt/g10/cmake/build/CMakeFiles/connect_grpc_fuse.dir
+/mnt/g10/cmake/build/CMakeFiles/wiscAFS.dir
+/mnt/g10/cmake/build/CMakeFiles/edit_cache.dir
+/mnt/g10/cmake/build/CMakeFiles/rebuild_cache.dir

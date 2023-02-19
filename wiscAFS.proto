@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+option java_package = "io.grpc.examples";
+
+package wiscAFS;
+
+// The greeting service definition.
+service WiscAFS {
+    rpc GetAttr (GetAttrReq) returns (GetAttrReply) {}
+    rpc Open (OpenReq) returns (OpenReply) {}
+    rpc Read (ReadReq) returns (stream ReadReply) {}
+    rpc Write (stream WriteReq) returns (WriteReply) {}
+    rpc ReadDir (ReadDirReq) returns (stream ReadDirReply) {}
+    rpc MkDir (MkDirReq) returns (MkDirReply) {}
+    rpc RmDir (RmDirReq) returns (RmDirReply) {}
+    rpc SayHello (HelloRequest) returns (HelloReply) {}
+
+}
+
+// ReadDir
+message ReadDirReq{
+    string path = 1;
+}
+
+message ReadDirReply {
+    int32 err = 1;
+    bytes buf = 2;
+}
+
+// MkDir
+message MkDirReq {
+    string path = 1;
+    int32 mode = 2;
+}
+
+message MkDirReply {
+    int32 err = 1;
+}
+
+// RmDir
+message RmDirReq {
+    string path = 1;
+}
+
+message RmDirReply {
+    int32 err = 1;
+}
+
+message GetAttrReq {
+    string path = 1;
+    bytes  buf = 2; // stat
+}
+
+message GetAttrReply {
+    bytes  buf = 2; // stat
+    int32 err = 1;
+}
+
+message OpenReq {
+    string path = 1;
+    int32  flag = 2;
+}
+
+message OpenReply{
+    int32  err = 1;
+}
+
+// Read File in stream mode
+
+message ReadReq {
+    string path = 1;
+    int32  size = 2;
+    int32  offset = 3;
+}
+
+message ReadReply {
+    int32 num_bytes = 1;
+    bytes buf  = 2;
+}
+
+// Write StreaFile in stream modeming
+message WriteReq {
+    string path = 1;
+    bytes  buf = 2;
+    int32  size = 3;
+    int32  offset = 4;
+}
+
+message WriteReply {
+    int32 num_bytes = 1;
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+}
