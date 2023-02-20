@@ -68,8 +68,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/wiscAFS_client.dir/DependInfo.cmake"
   "CMakeFiles/wiscAFS_server.dir/DependInfo.cmake"
-  "CMakeFiles/connect_grpc_fuse.dir/DependInfo.cmake"
   "CMakeFiles/wiscAFS.dir/DependInfo.cmake"
   )

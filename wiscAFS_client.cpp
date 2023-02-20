@@ -1,8 +1,8 @@
 #include "./wiscAFS_client.h"
 
-WiscAFSClient::WiscAFSClient(shared_ptr<Channel> channel) : stub_(WiscAFS::NewStub(channel)){}
+WiscAFSClient::WiscAFSClient(std::shared_ptr<Channel> channel) : stub_(WiscAFS::NewStub(channel)){}
 
-int WiscAFSClient::GetAttr(const string &path, struct stat *sb)
+int WiscAFSClient::GetAttr(const std::string &path, struct stat *sb)
 {
     GetAttrReq request;
     request.set_path(path);
@@ -200,8 +200,9 @@ int main(int argc, char **argv)
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
 
     //============ For Testing=========
-    std::string user("distributed systems");
-    std::string reply = client.SayHello(user);
+    const std::string path("/mnt/g10");
+    struct stat sb;
+    int reply = client.GetAttr(path, &sb);
     std::cout << "Greeter received: " << reply << std::endl;
     return 0;
 }

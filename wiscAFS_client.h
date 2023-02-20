@@ -3,7 +3,9 @@
 #include <string>
 #include <sys/stat.h>
 #include <grpc++/grpc++.h>
-
+#include <grpcpp/ext/proto_server_reflection_plugin.h>
+#include <grpcpp/grpcpp.h>
+#include <grpcpp/health_check_service_interface.h>
 #include "wiscAFS.grpc.pb.h"
 
 using namespace std;
@@ -37,8 +39,8 @@ using wiscAFS::WriteReq;
 class WiscAFSClient
 {
 public:
-    WiscAFSClient(shared_ptr<Channel> channel);
-    int GetAttr(const string &path, struct stat*);
+    WiscAFSClient(std::shared_ptr<Channel> channel);
+    int GetAttr(const std::string &path, struct stat*);
     int Open(string &path, int flag);
     int Read(string &path, string& buf, int size, int offset);
     int Write(string &path, string& data, int size, int offset);

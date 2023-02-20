@@ -45,7 +45,7 @@ class WiscAFSImpl final : public WiscAFS::Service {
     public:
         const string root_path;
         //default constructor
-        WiscAFSImpl(): root_path("/users/pmurugan/root_path"){}
+        WiscAFSImpl(): root_path(""){}
 
         Status GetAttr(ServerContext* context, const GetAttrReq* request, GetAttrReply* response) {
             string path = root_path + request->path();

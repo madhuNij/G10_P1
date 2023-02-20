@@ -1,4 +1,6 @@
+#include <grpc++/grpc++.h>
 #include "./connect_grpc_fuse.h"
+#include "wiscAFS_client.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -24,6 +26,12 @@ int connect_grpc_fuse_getattr(const char *path, struct stat *buf)
 //Open
 int connect_grpc_fuse_open(const char *path, struct fuse_file_info *fi)
 {
+    string hostport;
+    std::cout << "connect GRPC FUSE getattr" << std::endl;
+    hostport = "localhost:50051";
+    WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
+    const std::string _path(path);
+    int ret;
     ret = open(path, fi->flags);
     if (ret == -1) {
         return -errno;
@@ -36,6 +44,11 @@ int connect_grpc_fuse_open(const char *path, struct fuse_file_info *fi)
 int connect_grpc_fuse_read(const char *path, char *buf, size_t size, off_t offset,
                     struct fuse_file_info *fi)
 {
+    string hostport;
+    std::cout << "connect GRPC FUSE getattr" << std::endl;
+    hostport = "localhost:50051";
+    WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
+    const std::string _path(path);
     int fd;
 
     if (fi == NULL) {
@@ -62,6 +75,11 @@ int connect_grpc_fuse_read(const char *path, char *buf, size_t size, off_t offse
 int connect_grpc_fuse_write(const char *path, const char *buf, size_t size,
                      off_t offset, struct fuse_file_info *fi)
 {
+    string hostport;
+    std::cout << "connect GRPC FUSE getattr" << std::endl;
+    hostport = "localhost:50051";
+    WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
+    const std::string _path(path);
     int fd;
     (void) fi;
     if(fi == NULL) {
@@ -89,6 +107,11 @@ int connect_grpc_fuse_write(const char *path, const char *buf, size_t size,
 //MkDir
 int connect_grpc_fuse_mkdir(const char *path, mode_t mode)
 {
+    string hostport;
+    std::cout << "connect GRPC FUSE getattr" << std::endl;
+    hostport = "localhost:50051";
+    WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
+    const std::string _path(path);
     ret = mkdir(path, mode);
     if (ret == -1) {
         return -errno;
@@ -109,3 +132,6 @@ int connect_grpc_fuse_rmdir(const char *path)
 #ifdef __cplusplus
 }
 #endif
+/*int main(){
+    return 0;
+}*/

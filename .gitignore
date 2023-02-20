@@ -1,0 +1,6 @@
+*.o.d
+*.out
+wiscAFS_client
+wiscAFS_server
+wiscAFS
+*.o

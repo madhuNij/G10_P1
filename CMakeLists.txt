@@ -4,6 +4,10 @@ cmake_minimum_required(VERSION 3.15)
 # Project
 project(wiscAFS C CXX)
 
+# fuse
+set(CMAKE_MODULE_PATH "./cmake")
+find_package(FUSE 2.9 REQUIRED)
+
 # Protobuf
 set(protobuf_MODULE_COMPATIBLE TRUE)
 find_package(Protobuf CONFIG REQUIRED)
@@ -42,7 +46,7 @@ include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
 # Targets (client|server)
 foreach(_target
-  wiscAFS_client wiscAFS_server connect_grpc_fuse)
+   wiscAFS_server wiscAFS_client)
   add_executable(${_target} "${_target}.cpp"
     ${hw_proto_srcs}
     ${hw_grpc_srcs})
@@ -56,6 +60,8 @@ set(UNRELIABLEFS_SRC conf.c
                      unreliablefs.c
                      unreliablefs_errinj.c
                      unreliablefs_ops.c 
+                     connect_grpc_fuse.cpp
+                     wiscAFS_client.cpp
                      )
 
 
@@ -68,9 +74,8 @@ add_executable(${PROJECT_NAME} ${UNRELIABLEFS_SRC}
   ${_PROTOBUF_LIBPROTOBUF}
   stdc++fs)
 
-  target_include_directories(${PROJECT_NAME} PRIVATE ${FUSE_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PRIVATE ${FUSE_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} ${FUSE_LIBRARIES})
 
 target_compile_options(${PROJECT_NAME} PUBLIC -D_FILE_OFFSET_BITS=64 -Wall -Wextra -Wno-unused-parameter)
 target_compile_options(${PROJECT_NAME} PUBLIC $<$<COMPILE_LANGUAGE:CXX>:-std=c++11 -D_FILE_OFFSET_BITS=64>)
-

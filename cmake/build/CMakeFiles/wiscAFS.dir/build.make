@@ -138,10 +138,38 @@ CMakeFiles/wiscAFS.dir/unreliablefs_ops.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/wiscAFS.dir/unreliablefs_ops.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/g10/unreliablefs_ops.c -o CMakeFiles/wiscAFS.dir/unreliablefs_ops.c.s
 
+CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.o: CMakeFiles/wiscAFS.dir/flags.make
+CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.o: /mnt/g10/connect_grpc_fuse.cpp
+CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.o: CMakeFiles/wiscAFS.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/g10/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.o -MF CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.o.d -o CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.o -c /mnt/g10/connect_grpc_fuse.cpp
+
+CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/g10/connect_grpc_fuse.cpp > CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.i
+
+CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/g10/connect_grpc_fuse.cpp -o CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.s
+
+CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.o: CMakeFiles/wiscAFS.dir/flags.make
+CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.o: /mnt/g10/wiscAFS_client.cpp
+CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.o: CMakeFiles/wiscAFS.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/g10/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.o -MF CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.o.d -o CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.o -c /mnt/g10/wiscAFS_client.cpp
+
+CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/g10/wiscAFS_client.cpp > CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.i
+
+CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/g10/wiscAFS_client.cpp -o CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.s
+
 CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o: CMakeFiles/wiscAFS.dir/flags.make
 CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o: wiscAFS.pb.cc
 CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o: CMakeFiles/wiscAFS.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/g10/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/g10/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o -MF CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o.d -o CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o -c /mnt/g10/cmake/build/wiscAFS.pb.cc
 
 CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.i: cmake_force
@@ -155,7 +183,7 @@ CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.s: cmake_force
 CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o: CMakeFiles/wiscAFS.dir/flags.make
 CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o: wiscAFS.grpc.pb.cc
 CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o: CMakeFiles/wiscAFS.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/g10/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/g10/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o -MF CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o.d -o CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o -c /mnt/g10/cmake/build/wiscAFS.grpc.pb.cc
 
 CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.i: cmake_force
@@ -172,6 +200,8 @@ wiscAFS_OBJECTS = \
 "CMakeFiles/wiscAFS.dir/unreliablefs.c.o" \
 "CMakeFiles/wiscAFS.dir/unreliablefs_errinj.c.o" \
 "CMakeFiles/wiscAFS.dir/unreliablefs_ops.c.o" \
+"CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.o" \
+"CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.o" \
 "CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o" \
 "CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o"
 
@@ -182,6 +212,8 @@ wiscAFS: CMakeFiles/wiscAFS.dir/conf.c.o
 wiscAFS: CMakeFiles/wiscAFS.dir/unreliablefs.c.o
 wiscAFS: CMakeFiles/wiscAFS.dir/unreliablefs_errinj.c.o
 wiscAFS: CMakeFiles/wiscAFS.dir/unreliablefs_ops.c.o
+wiscAFS: CMakeFiles/wiscAFS.dir/connect_grpc_fuse.cpp.o
+wiscAFS: CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.o
 wiscAFS: CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o
 wiscAFS: CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o
 wiscAFS: CMakeFiles/wiscAFS.dir/build.make
@@ -242,7 +274,7 @@ wiscAFS: /mnt/.local/lib/libabsl_time_zone.a
 wiscAFS: /mnt/.local/lib/libssl.a
 wiscAFS: /mnt/.local/lib/libcrypto.a
 wiscAFS: CMakeFiles/wiscAFS.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/g10/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable wiscAFS"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/g10/cmake/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable wiscAFS"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/wiscAFS.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
