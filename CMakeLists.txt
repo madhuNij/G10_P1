@@ -46,7 +46,7 @@ include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
 # Targets (client|server)
 foreach(_target
-   wiscAFS_server wiscAFS_client)
+   wiscAFS_server)
   add_executable(${_target} "${_target}.cpp"
     ${hw_proto_srcs}
     ${hw_grpc_srcs})

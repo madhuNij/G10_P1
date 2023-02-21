@@ -130,19 +130,6 @@ wiscAFS_server/fast:
 .PHONY : wiscAFS_server/fast
 
 #=============================================================================
-# Target rules for targets named wiscAFS_client
-
-# Build rule for target.
-wiscAFS_client: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 wiscAFS_client
-.PHONY : wiscAFS_client
-
-# fast build rule for target.
-wiscAFS_client/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_client.dir/build.make CMakeFiles/wiscAFS_client.dir/build
-.PHONY : wiscAFS_client/fast
-
-#=============================================================================
 # Target rules for targets named wiscAFS
 
 # Build rule for target.
@@ -281,7 +268,6 @@ wiscAFS.grpc.pb.o: wiscAFS.grpc.pb.cc.o
 # target to build an object file
 wiscAFS.grpc.pb.cc.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_server.dir/build.make CMakeFiles/wiscAFS_server.dir/wiscAFS.grpc.pb.cc.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_client.dir/build.make CMakeFiles/wiscAFS_client.dir/wiscAFS.grpc.pb.cc.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS.dir/build.make CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.o
 .PHONY : wiscAFS.grpc.pb.cc.o
 
@@ -291,7 +277,6 @@ wiscAFS.grpc.pb.i: wiscAFS.grpc.pb.cc.i
 # target to preprocess a source file
 wiscAFS.grpc.pb.cc.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_server.dir/build.make CMakeFiles/wiscAFS_server.dir/wiscAFS.grpc.pb.cc.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_client.dir/build.make CMakeFiles/wiscAFS_client.dir/wiscAFS.grpc.pb.cc.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS.dir/build.make CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.i
 .PHONY : wiscAFS.grpc.pb.cc.i
 
@@ -301,7 +286,6 @@ wiscAFS.grpc.pb.s: wiscAFS.grpc.pb.cc.s
 # target to generate assembly for a file
 wiscAFS.grpc.pb.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_server.dir/build.make CMakeFiles/wiscAFS_server.dir/wiscAFS.grpc.pb.cc.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_client.dir/build.make CMakeFiles/wiscAFS_client.dir/wiscAFS.grpc.pb.cc.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS.dir/build.make CMakeFiles/wiscAFS.dir/wiscAFS.grpc.pb.cc.s
 .PHONY : wiscAFS.grpc.pb.cc.s
 
@@ -311,7 +295,6 @@ wiscAFS.pb.o: wiscAFS.pb.cc.o
 # target to build an object file
 wiscAFS.pb.cc.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_server.dir/build.make CMakeFiles/wiscAFS_server.dir/wiscAFS.pb.cc.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_client.dir/build.make CMakeFiles/wiscAFS_client.dir/wiscAFS.pb.cc.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS.dir/build.make CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.o
 .PHONY : wiscAFS.pb.cc.o
 
@@ -321,7 +304,6 @@ wiscAFS.pb.i: wiscAFS.pb.cc.i
 # target to preprocess a source file
 wiscAFS.pb.cc.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_server.dir/build.make CMakeFiles/wiscAFS_server.dir/wiscAFS.pb.cc.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_client.dir/build.make CMakeFiles/wiscAFS_client.dir/wiscAFS.pb.cc.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS.dir/build.make CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.i
 .PHONY : wiscAFS.pb.cc.i
 
@@ -331,7 +313,6 @@ wiscAFS.pb.s: wiscAFS.pb.cc.s
 # target to generate assembly for a file
 wiscAFS.pb.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_server.dir/build.make CMakeFiles/wiscAFS_server.dir/wiscAFS.pb.cc.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_client.dir/build.make CMakeFiles/wiscAFS_client.dir/wiscAFS.pb.cc.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS.dir/build.make CMakeFiles/wiscAFS.dir/wiscAFS.pb.cc.s
 .PHONY : wiscAFS.pb.cc.s
 
@@ -340,7 +321,6 @@ wiscAFS_client.o: wiscAFS_client.cpp.o
 
 # target to build an object file
 wiscAFS_client.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_client.dir/build.make CMakeFiles/wiscAFS_client.dir/wiscAFS_client.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS.dir/build.make CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.o
 .PHONY : wiscAFS_client.cpp.o
 
@@ -349,7 +329,6 @@ wiscAFS_client.i: wiscAFS_client.cpp.i
 
 # target to preprocess a source file
 wiscAFS_client.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_client.dir/build.make CMakeFiles/wiscAFS_client.dir/wiscAFS_client.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS.dir/build.make CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.i
 .PHONY : wiscAFS_client.cpp.i
 
@@ -358,7 +337,6 @@ wiscAFS_client.s: wiscAFS_client.cpp.s
 
 # target to generate assembly for a file
 wiscAFS_client.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS_client.dir/build.make CMakeFiles/wiscAFS_client.dir/wiscAFS_client.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/wiscAFS.dir/build.make CMakeFiles/wiscAFS.dir/wiscAFS_client.cpp.s
 .PHONY : wiscAFS_client.cpp.s
 
@@ -395,7 +373,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... wiscAFS"
-	@echo "... wiscAFS_client"
 	@echo "... wiscAFS_server"
 	@echo "... conf.o"
 	@echo "... conf.i"
