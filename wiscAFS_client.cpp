@@ -9,6 +9,7 @@ int WiscAFSClient::GetAttr(const std::string &path, struct stat *sb)
     GetAttrReply reply;
     ClientContext context;
     Status status = stub_->GetAttr(&context, request, &reply);
+    cout << "Status:" << status.ok();
     if (status.ok())
     {
         string buf = reply.buf();
@@ -61,11 +62,12 @@ int WiscAFSClient::GetAttr(const std::string &path, struct stat *sb)
     }
     else
     {
+        cout << "Getattr return -1";
         return -1;
     }
 }
 
-int WiscAFSClient::Open(string &path, int flag){
+int WiscAFSClient::Open(const string &path, int flag){
     OpenReq request;
     request.set_path(path);
     request.set_flag(flag);
@@ -76,7 +78,7 @@ int WiscAFSClient::Open(string &path, int flag){
     return status.ok() ? reply.err() : -1;
 }
 
-int WiscAFSClient::Read(string &path, string& buf, int size, int offset){
+int WiscAFSClient::Read(const string &path, string &buf, int size, int offset){
     ReadReq request;
     request.set_path(path);
     request.set_size(size);
@@ -93,11 +95,13 @@ int WiscAFSClient::Read(string &path, string& buf, int size, int offset){
             break;
         }
     }
+    cout << "Size:" << size << "Path:" << path << endl;
+    cout << "Buf:" << buf;
     Status status = reader->Finish();
     return status.ok() ? buf.size() : -1;
 }
 
-int WiscAFSClient::Write(string &path, string& data, int size, int offset){
+int WiscAFSClient::Write(const string &path, string& data, int size, int offset){
     WriteReq request;
     WriteReply reply;
     ClientContext context;
@@ -123,7 +127,7 @@ int WiscAFSClient::Write(string &path, string& data, int size, int offset){
 
 }
 
-int WiscAFSClient::ReadDir(string& path, vector<string>& buf) {
+int WiscAFSClient::ReadDir(const string& path, vector<string>& buf) {
     ReadDirReq request;
     request.set_path(path);
 
@@ -188,21 +192,21 @@ string WiscAFSClient::SayHello(const std::string &user)
 
 
 
-int main(int argc, char **argv)
-{
-    string hostport;
-    if (argc > 1)
-    {
-        hostport = argv[1];
-    }
-    else
-        hostport = "localhost:50051";
-    WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
+// int main(int argc, char **argv)
+// {
+//     string hostport;
+//     if (argc > 1)
+//     {
+//         hostport = argv[1];
+//     }
+//     else
+//         hostport = "localhost:50051";
+//     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
 
-    //============ For Testing=========
-    const std::string path("/mnt/g10");
-    struct stat sb;
-    int reply = client.GetAttr(path, &sb);
-    std::cout << "Greeter received: " << reply << std::endl;
-    return 0;
-}
+//     //============ For Testing=========
+//     const std::string path("/mnt/g10");
+//     struct stat sb;
+//     int reply = client.GetAttr(path, &sb);
+//     std::cout << "Greeter received: " << reply << std::endl;
+//     return 0;
+// }

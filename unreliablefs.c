@@ -129,81 +129,81 @@ int is_dir(const char *path) {
     return S_ISDIR(statbuf.st_mode);
 }
 
-// int main(int argc, char *argv[])
-// {
-//     struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
-//     memset(&conf, 0, sizeof(conf));
-//     conf.seed = time(0);
-//     conf.basedir = "/";
-//     fuse_opt_parse(&args, &conf, unreliablefs_opts, unreliablefs_opt_proc);
-//     srand(conf.seed);
-//     fprintf(stdout, "random seed = %d\n", conf.seed);
-
-//     if (is_dir(conf.basedir) == 0) {
-//        fprintf(stderr, "basedir ('%s') is not a directory\n", conf.basedir);
-//        fuse_opt_free_args(&args);
-//        return EXIT_FAILURE;
-//     }
-//     char subdir_option[PATH_MAX];
-//     sprintf(subdir_option, "-omodules=subdir,subdir=%s", conf.basedir);
-//     fuse_opt_add_arg(&args, subdir_option);
-//     /* build config_path */
-//     char *real_path = realpath(conf.basedir, NULL);
-//     if (!real_path) {
-//         perror("realpath");
-//         fuse_opt_free_args(&args);
-//         return EXIT_FAILURE;
-//     }
-//     conf.basedir = real_path;
-//     size_t sz = strlen(DEFAULT_CONF_NAME) + strlen(conf.basedir) + 2;
-//     conf.config_path = malloc(sz);
-//     if (!conf.config_path) {
-//         perror("malloc");
-//         fuse_opt_free_args(&args);
-//         return EXIT_FAILURE;
-//     }
-//     /* read configuration file on start */
-//     snprintf(conf.config_path, sz, "%s/%s", conf.basedir, DEFAULT_CONF_NAME);
-//     conf.errors = config_init(conf.config_path);
-//     if (!conf.errors) {
-//         fprintf(stdout, "error injections are not configured!\n");
-//     }
-//     if (pthread_mutex_init(&conf.mutex, NULL) != 0) {
-//         fuse_opt_free_args(&args);
-//         perror("pthread_mutex_init");
-//         return EXIT_FAILURE;
-//     }
-
-//     fprintf(stdout, "starting FUSE filesystem unreliablefs\n");
-//     int ret = fuse_main(args.argc, args.argv, &unreliable_ops, NULL);
-
-//     /* cleanup */
-//     fuse_opt_free_args(&args);
-//     config_delete(conf.errors);
-//     if (conf.config_path)
-//         free(conf.config_path);
-//     if (!ret) {
-//         fprintf(stdout, "random seed = %d\n", conf.seed);
-//     }
-
-//     return ret;
-// }*/
-
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
-    string hostport;
-    if (argc > 1)
-    {
-        hostport = argv[1];
-    }
-    else
-        hostport = "localhost:50051";
-    WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
+    struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
+    memset(&conf, 0, sizeof(conf));
+    conf.seed = time(0);
+    conf.basedir = "/";
+    fuse_opt_parse(&args, &conf, unreliablefs_opts, unreliablefs_opt_proc);
+    srand(conf.seed);
+    fprintf(stdout, "random seed = %d\n", conf.seed);
 
-    //============ For Testing=========
-    const std::string path("/mnt/g10/wiscAFS_client.cpp");
-    struct stat sb;
-    int reply = client.GetAttr(path, &sb);
-    std::cout << "Greeter received: " << reply << std::endl;
-    return 0;
+    if (is_dir(conf.basedir) == 0) {
+       fprintf(stderr, "basedir ('%s') is not a directory\n", conf.basedir);
+       fuse_opt_free_args(&args);
+       return EXIT_FAILURE;
+    }
+    char subdir_option[PATH_MAX];
+    sprintf(subdir_option, "-omodules=subdir,subdir=%s", conf.basedir);
+    fuse_opt_add_arg(&args, subdir_option);
+    /* build config_path */
+    char *real_path = realpath(conf.basedir, NULL);
+    if (!real_path) {
+        perror("realpath");
+        fuse_opt_free_args(&args);
+        return EXIT_FAILURE;
+    }
+    conf.basedir = real_path;
+    size_t sz = strlen(DEFAULT_CONF_NAME) + strlen(conf.basedir) + 2;
+    conf.config_path = malloc(sz);
+    if (!conf.config_path) {
+        perror("malloc");
+        fuse_opt_free_args(&args);
+        return EXIT_FAILURE;
+    }
+    /* read configuration file on start */
+    snprintf(conf.config_path, sz, "%s/%s", conf.basedir, DEFAULT_CONF_NAME);
+    conf.errors = config_init(conf.config_path);
+    if (!conf.errors) {
+        fprintf(stdout, "error injections are not configured!\n");
+    }
+    if (pthread_mutex_init(&conf.mutex, NULL) != 0) {
+        fuse_opt_free_args(&args);
+        perror("pthread_mutex_init");
+        return EXIT_FAILURE;
+    }
+
+    fprintf(stdout, "starting FUSE filesystem unreliablefs\n");
+    int ret = fuse_main(args.argc, args.argv, &unreliable_ops, NULL);
+
+    /* cleanup */
+    fuse_opt_free_args(&args);
+    config_delete(conf.errors);
+    if (conf.config_path)
+        free(conf.config_path);
+    if (!ret) {
+        fprintf(stdout, "random seed = %d\n", conf.seed);
+    }
+
+    return ret;
 }
+
+// int main(int argc, char **argv)
+// {
+//     string hostport;
+//     if (argc > 1)
+//     {
+//         hostport = argv[1];
+//     }
+//     else
+//         hostport = "localhost:50051";
+//     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
+
+//     //============ For Testing=========
+//     const std::string path("/mnt/g10/wiscAFS_client.cpp");
+//     struct stat sb;
+//     int reply = client.GetAttr(path, &sb);
+//     std::cout << "Greeter received: " << reply << std::endl;
+//     return 0;
+// }

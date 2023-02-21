@@ -41,10 +41,10 @@ class WiscAFSClient
 public:
     WiscAFSClient(std::shared_ptr<Channel> channel);
     int GetAttr(const std::string &path, struct stat*);
-    int Open(string &path, int flag);
-    int Read(string &path, string& buf, int size, int offset);
-    int Write(string &path, string& data, int size, int offset);
-    int ReadDir(string& path, vector<string>& buf);
+    int Open(const string &path, int flag);
+    int Read(const string &path, string& buf, int size, int offset);
+    int Write(const string &path, string& data, int size, int offset);
+    int ReadDir(const string& path, vector<string>& buf);
     int MkDir(const string& path, int mode);
     int RmDir(const std::string& path);
     string SayHello(const std::string &user);

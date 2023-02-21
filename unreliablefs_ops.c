@@ -91,12 +91,12 @@ int unreliable_lstat(const char *path, struct stat *buf)
 
 int unreliable_getattr(const char *path, struct stat *buf)
 {
-    /*int ret = error_inject(path, OP_GETATTR);
+    int ret = error_inject(path, OP_GETATTR);
     if (ret == -ERRNO_NOOP) {
         return 0;
     } else if (ret) {
         return ret;
-    }*/
+    }
 
     return connect_grpc_fuse_getattr(path, buf);
 }
@@ -145,8 +145,8 @@ int unreliable_mkdir(const char *path, mode_t mode)
         return ret;
     }
 
-    //return connect_grpc_fuse_mkdir(path, mode);
-    return 0;
+    return connect_grpc_fuse_mkdir(path, mode);
+    //return 0;
 }
 
 int unreliable_unlink(const char *path)
@@ -176,8 +176,8 @@ int unreliable_rmdir(const char *path)
     }
 
 
-    //return connect_grpc_fuse_rmdir(path);
-    return 0;
+    return connect_grpc_fuse_rmdir(path);
+    //return 0;
 }
 
 int unreliable_symlink(const char *target, const char *linkpath)
@@ -292,8 +292,8 @@ int unreliable_open(const char *path, struct fuse_file_info *fi)
     }
 
 
-    //return connect_grpc_fuse_open(path, fi);
-    return 0;
+    return connect_grpc_fuse_open(path, fi);
+    //return 0;
 }
 
 int unreliable_read(const char *path, char *buf, size_t size, off_t offset,
@@ -306,8 +306,8 @@ int unreliable_read(const char *path, char *buf, size_t size, off_t offset,
         return ret;
     }
 
-    //return connect_grpc_fuse_read(path, buf, size, offset, fi);
-    return 0;
+    return connect_grpc_fuse_read(path, buf, size, offset, fi);
+    //return 0;
 }
 
 int unreliable_write(const char *path, const char *buf, size_t size,
@@ -321,8 +321,8 @@ int unreliable_write(const char *path, const char *buf, size_t size,
     }
 
     
-    //return connect_grpc_fuse_write(path, buf, size, offset, fi);
-    return 0;
+    return connect_grpc_fuse_write(path, buf, size, offset, fi);
+    //return 0;
 }
 
 int unreliable_statfs(const char *path, struct statvfs *buf)
