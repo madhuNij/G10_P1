@@ -1,6 +1,5 @@
 using namespace std;
 #include "./wiscAFS_client.h"
-#include "./writeFile.h"
 
 WiscAFSClient::WiscAFSClient(std::shared_ptr<Channel> channel) : stub_(WiscAFS::NewStub(channel)){}
 
@@ -78,20 +77,17 @@ int WiscAFSClient::GetAttr(const std::string &path, struct stat *sb, int &errorn
 }
 
 int WiscAFSClient::Open(const string &path, int flag){
-    cout << "In Open";
     OpenReq request;
     request.set_path(path);
     request.set_flag(flag);
     OpenReply reply;
     ClientContext context;
     Status status = stub_->Open(&context, request, &reply);
-    cout << "open status" << status.ok();
-    cout << "open reply status" << reply.err();
+
     return status.ok() ? reply.err() : -1;
 }
 
 int WiscAFSClient::Read(const string &path, string &buf, int size, int offset){
-    cout << "In Read";
     ReadReq request;
     request.set_path(path);
     request.set_size(size);
@@ -111,11 +107,10 @@ int WiscAFSClient::Read(const string &path, string &buf, int size, int offset){
     cout << "Read Size:" << size << "Read Path:" << path << endl;
     cout << "Read Buf:" << buf;
     Status status = reader->Finish();
-    return status.ok() ? reply.num_bytes() : status.error_code();
+    return status.ok() ? buf.size() : -1;
 }
 
-int WiscAFSClient::Write(const string &path, string& data, int size, int offset){
-    cout << "In Write";
+int WiscAFSClient::Write(const std::string &path, string& data, int size, int offset){
     WriteReq request;
     WriteReply reply;
     ClientContext context;
@@ -233,9 +228,13 @@ string WiscAFSClient::SayHello(const std::string &user)
 //     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
 
 //     //============ For Testing=========
-//     const std::string path("/mnt/g10");
+//     const std::string path("/tmp/fs/test.txt");
 //     struct stat sb;
-//     int reply = client.GetAttr(path, &sb);
-//     std::cout << "Greeter received: " << reply << std::endl;
+//     std::string buf("I am written through grpc");
+//     cout<<"before call\n";
+//     //int reply = client.Write(path,buf,4096,0);
+//     //reply = client.Read(path,buf,4096,0);
+//     cout<<"after call\n";
+//     //std::cout << "received buffer: " << buf << std::endl;
 //     return 0;
 // }

@@ -119,7 +119,6 @@ PROTOBUF_CONSTEXPR GetAttrReply::GetAttrReply(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.buf_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.err_)*/0
-  , /*decltype(_impl_.status_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct GetAttrReplyDefaultTypeInternal {
   PROTOBUF_CONSTEXPR GetAttrReplyDefaultTypeInternal()
@@ -215,32 +214,6 @@ struct WriteReplyDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 WriteReplyDefaultTypeInternal _WriteReply_default_instance_;
-PROTOBUF_CONSTEXPR UnlinkReq::UnlinkReq(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.path_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct UnlinkReqDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR UnlinkReqDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~UnlinkReqDefaultTypeInternal() {}
-  union {
-    UnlinkReq _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UnlinkReqDefaultTypeInternal _UnlinkReq_default_instance_;
-PROTOBUF_CONSTEXPR UnlinkReply::UnlinkReply(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.status_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct UnlinkReplyDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR UnlinkReplyDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~UnlinkReplyDefaultTypeInternal() {}
-  union {
-    UnlinkReply _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UnlinkReplyDefaultTypeInternal _UnlinkReply_default_instance_;
 PROTOBUF_CONSTEXPR HelloRequest::HelloRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -268,7 +241,7 @@ struct HelloReplyDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 HelloReplyDefaultTypeInternal _HelloReply_default_instance_;
 }  // namespace wiscAFS
-static ::_pb::Metadata file_level_metadata_wiscAFS_2eproto[18];
+static ::_pb::Metadata file_level_metadata_wiscAFS_2eproto[16];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_wiscAFS_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_wiscAFS_2eproto = nullptr;
 
@@ -331,9 +304,8 @@ const uint32_t TableStruct_wiscAFS_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::wiscAFS::GetAttrReply, _impl_.err_),
   PROTOBUF_FIELD_OFFSET(::wiscAFS::GetAttrReply, _impl_.buf_),
-  PROTOBUF_FIELD_OFFSET(::wiscAFS::GetAttrReply, _impl_.status_),
+  PROTOBUF_FIELD_OFFSET(::wiscAFS::GetAttrReply, _impl_.err_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::wiscAFS::OpenReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -384,20 +356,6 @@ const uint32_t TableStruct_wiscAFS_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::wiscAFS::WriteReply, _impl_.num_bytes_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::wiscAFS::UnlinkReq, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::wiscAFS::UnlinkReq, _impl_.path_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::wiscAFS::UnlinkReply, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::wiscAFS::UnlinkReply, _impl_.status_),
-  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::wiscAFS::HelloRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -421,16 +379,14 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 37, -1, -1, sizeof(::wiscAFS::RmDirReply)},
   { 44, -1, -1, sizeof(::wiscAFS::GetAttrReq)},
   { 52, -1, -1, sizeof(::wiscAFS::GetAttrReply)},
-  { 61, -1, -1, sizeof(::wiscAFS::OpenReq)},
-  { 69, -1, -1, sizeof(::wiscAFS::OpenReply)},
-  { 76, -1, -1, sizeof(::wiscAFS::ReadReq)},
-  { 85, -1, -1, sizeof(::wiscAFS::ReadReply)},
-  { 93, -1, -1, sizeof(::wiscAFS::WriteReq)},
-  { 103, -1, -1, sizeof(::wiscAFS::WriteReply)},
-  { 110, -1, -1, sizeof(::wiscAFS::UnlinkReq)},
-  { 117, -1, -1, sizeof(::wiscAFS::UnlinkReply)},
-  { 124, -1, -1, sizeof(::wiscAFS::HelloRequest)},
-  { 131, -1, -1, sizeof(::wiscAFS::HelloReply)},
+  { 60, -1, -1, sizeof(::wiscAFS::OpenReq)},
+  { 68, -1, -1, sizeof(::wiscAFS::OpenReply)},
+  { 75, -1, -1, sizeof(::wiscAFS::ReadReq)},
+  { 84, -1, -1, sizeof(::wiscAFS::ReadReply)},
+  { 92, -1, -1, sizeof(::wiscAFS::WriteReq)},
+  { 102, -1, -1, sizeof(::wiscAFS::WriteReply)},
+  { 109, -1, -1, sizeof(::wiscAFS::HelloRequest)},
+  { 116, -1, -1, sizeof(::wiscAFS::HelloReply)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -448,8 +404,6 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::wiscAFS::_ReadReply_default_instance_._instance,
   &::wiscAFS::_WriteReq_default_instance_._instance,
   &::wiscAFS::_WriteReply_default_instance_._instance,
-  &::wiscAFS::_UnlinkReq_default_instance_._instance,
-  &::wiscAFS::_UnlinkReply_default_instance_._instance,
   &::wiscAFS::_HelloRequest_default_instance_._instance,
   &::wiscAFS::_HelloReply_default_instance_._instance,
 };
@@ -461,37 +415,34 @@ const char descriptor_table_protodef_wiscAFS_2eproto[] PROTOBUF_SECTION_VARIABLE
   "\022\014\n\004mode\030\002 \001(\005\"\031\n\nMkDirReply\022\013\n\003err\030\001 \001("
   "\005\"\030\n\010RmDirReq\022\014\n\004path\030\001 \001(\t\"\031\n\nRmDirRepl"
   "y\022\013\n\003err\030\001 \001(\005\"\'\n\nGetAttrReq\022\014\n\004path\030\001 \001"
-  "(\t\022\013\n\003buf\030\002 \001(\014\"8\n\014GetAttrReply\022\013\n\003err\030\001"
-  " \001(\005\022\013\n\003buf\030\002 \001(\014\022\016\n\006status\030\003 \001(\005\"%\n\007Ope"
-  "nReq\022\014\n\004path\030\001 \001(\t\022\014\n\004flag\030\002 \001(\005\"\030\n\tOpen"
-  "Reply\022\013\n\003err\030\001 \001(\005\"5\n\007ReadReq\022\014\n\004path\030\001 "
-  "\001(\t\022\014\n\004size\030\002 \001(\005\022\016\n\006offset\030\003 \001(\005\"+\n\tRea"
-  "dReply\022\021\n\tnum_bytes\030\001 \001(\005\022\013\n\003buf\030\002 \001(\014\"C"
-  "\n\010WriteReq\022\014\n\004path\030\001 \001(\t\022\013\n\003buf\030\002 \001(\014\022\014\n"
-  "\004size\030\003 \001(\005\022\016\n\006offset\030\004 \001(\005\"\037\n\nWriteRepl"
-  "y\022\021\n\tnum_bytes\030\001 \001(\005\"\031\n\tUnlinkReq\022\014\n\004pat"
-  "h\030\001 \001(\t\"\035\n\013UnlinkReply\022\016\n\006status\030\001 \001(\005\"\034"
-  "\n\014HelloRequest\022\014\n\004name\030\001 \001(\t\"\035\n\nHelloRep"
-  "ly\022\017\n\007message\030\001 \001(\t2\352\003\n\007WiscAFS\0227\n\007GetAt"
-  "tr\022\023.wiscAFS.GetAttrReq\032\025.wiscAFS.GetAtt"
-  "rReply\"\000\022.\n\004Open\022\020.wiscAFS.OpenReq\032\022.wis"
-  "cAFS.OpenReply\"\000\0220\n\004Read\022\020.wiscAFS.ReadR"
-  "eq\032\022.wiscAFS.ReadReply\"\0000\001\0223\n\005Write\022\021.wi"
-  "scAFS.WriteReq\032\023.wiscAFS.WriteReply\"\000(\001\022"
-  "9\n\007ReadDir\022\023.wiscAFS.ReadDirReq\032\025.wiscAF"
-  "S.ReadDirReply\"\0000\001\0221\n\005MkDir\022\021.wiscAFS.Mk"
-  "DirReq\032\023.wiscAFS.MkDirReply\"\000\0221\n\005RmDir\022\021"
-  ".wiscAFS.RmDirReq\032\023.wiscAFS.RmDirReply\"\000"
-  "\0224\n\006Unlink\022\022.wiscAFS.UnlinkReq\032\024.wiscAFS"
-  ".UnlinkReply\"\000\0228\n\010SayHello\022\025.wiscAFS.Hel"
-  "loRequest\032\023.wiscAFS.HelloReply\"\000B\022\n\020io.g"
-  "rpc.examplesb\006proto3"
+  "(\t\022\013\n\003buf\030\002 \001(\014\"(\n\014GetAttrReply\022\013\n\003buf\030\002"
+  " \001(\014\022\013\n\003err\030\001 \001(\005\"%\n\007OpenReq\022\014\n\004path\030\001 \001"
+  "(\t\022\014\n\004flag\030\002 \001(\005\"\030\n\tOpenReply\022\013\n\003err\030\001 \001"
+  "(\005\"5\n\007ReadReq\022\014\n\004path\030\001 \001(\t\022\014\n\004size\030\002 \001("
+  "\005\022\016\n\006offset\030\003 \001(\005\"+\n\tReadReply\022\021\n\tnum_by"
+  "tes\030\001 \001(\005\022\013\n\003buf\030\002 \001(\014\"C\n\010WriteReq\022\014\n\004pa"
+  "th\030\001 \001(\t\022\013\n\003buf\030\002 \001(\014\022\014\n\004size\030\003 \001(\005\022\016\n\006o"
+  "ffset\030\004 \001(\005\"\037\n\nWriteReply\022\021\n\tnum_bytes\030\001"
+  " \001(\005\"\034\n\014HelloRequest\022\014\n\004name\030\001 \001(\t\"\035\n\nHe"
+  "lloReply\022\017\n\007message\030\001 \001(\t2\264\003\n\007WiscAFS\0227\n"
+  "\007GetAttr\022\023.wiscAFS.GetAttrReq\032\025.wiscAFS."
+  "GetAttrReply\"\000\022.\n\004Open\022\020.wiscAFS.OpenReq"
+  "\032\022.wiscAFS.OpenReply\"\000\0220\n\004Read\022\020.wiscAFS"
+  ".ReadReq\032\022.wiscAFS.ReadReply\"\0000\001\0223\n\005Writ"
+  "e\022\021.wiscAFS.WriteReq\032\023.wiscAFS.WriteRepl"
+  "y\"\000(\001\0229\n\007ReadDir\022\023.wiscAFS.ReadDirReq\032\025."
+  "wiscAFS.ReadDirReply\"\0000\001\0221\n\005MkDir\022\021.wisc"
+  "AFS.MkDirReq\032\023.wiscAFS.MkDirReply\"\000\0221\n\005R"
+  "mDir\022\021.wiscAFS.RmDirReq\032\023.wiscAFS.RmDirR"
+  "eply\"\000\0228\n\010SayHello\022\025.wiscAFS.HelloReques"
+  "t\032\023.wiscAFS.HelloReply\"\000B\022\n\020io.grpc.exam"
+  "plesb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_wiscAFS_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_wiscAFS_2eproto = {
-    false, false, 1220, descriptor_table_protodef_wiscAFS_2eproto,
+    false, false, 1092, descriptor_table_protodef_wiscAFS_2eproto,
     "wiscAFS.proto",
-    &descriptor_table_wiscAFS_2eproto_once, nullptr, 0, 18,
+    &descriptor_table_wiscAFS_2eproto_once, nullptr, 0, 16,
     schemas, file_default_instances, TableStruct_wiscAFS_2eproto::offsets,
     file_level_metadata_wiscAFS_2eproto, file_level_enum_descriptors_wiscAFS_2eproto,
     file_level_service_descriptors_wiscAFS_2eproto,
@@ -1987,7 +1938,6 @@ GetAttrReply::GetAttrReply(const GetAttrReply& from)
   new (&_impl_) Impl_{
       decltype(_impl_.buf_){}
     , decltype(_impl_.err_){}
-    , decltype(_impl_.status_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -1999,9 +1949,7 @@ GetAttrReply::GetAttrReply(const GetAttrReply& from)
     _this->_impl_.buf_.Set(from._internal_buf(), 
       _this->GetArenaForAllocation());
   }
-  ::memcpy(&_impl_.err_, &from._impl_.err_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.status_) -
-    reinterpret_cast<char*>(&_impl_.err_)) + sizeof(_impl_.status_));
+  _this->_impl_.err_ = from._impl_.err_;
   // @@protoc_insertion_point(copy_constructor:wiscAFS.GetAttrReply)
 }
 
@@ -2012,7 +1960,6 @@ inline void GetAttrReply::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.buf_){}
     , decltype(_impl_.err_){0}
-    , decltype(_impl_.status_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.buf_.InitDefault();
@@ -2046,9 +1993,7 @@ void GetAttrReply::Clear() {
   (void) cached_has_bits;
 
   _impl_.buf_.ClearToEmpty();
-  ::memset(&_impl_.err_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.status_) -
-      reinterpret_cast<char*>(&_impl_.err_)) + sizeof(_impl_.status_));
+  _impl_.err_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2071,14 +2016,6 @@ const char* GetAttrReply::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           auto str = _internal_mutable_buf();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 status = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _impl_.status_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -2124,12 +2061,6 @@ uint8_t* GetAttrReply::_InternalSerialize(
         2, this->_internal_buf(), target);
   }
 
-  // int32 status = 3;
-  if (this->_internal_status() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_status(), target);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2158,11 +2089,6 @@ size_t GetAttrReply::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_err());
   }
 
-  // int32 status = 3;
-  if (this->_internal_status() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_status());
-  }
-
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -2187,9 +2113,6 @@ void GetAttrReply::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
   if (from._internal_err() != 0) {
     _this->_internal_set_err(from._internal_err());
   }
-  if (from._internal_status() != 0) {
-    _this->_internal_set_status(from._internal_status());
-  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -2213,12 +2136,7 @@ void GetAttrReply::InternalSwap(GetAttrReply* other) {
       &_impl_.buf_, lhs_arena,
       &other->_impl_.buf_, rhs_arena
   );
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(GetAttrReply, _impl_.status_)
-      + sizeof(GetAttrReply::_impl_.status_)
-      - PROTOBUF_FIELD_OFFSET(GetAttrReply, _impl_.err_)>(
-          reinterpret_cast<char*>(&_impl_.err_),
-          reinterpret_cast<char*>(&other->_impl_.err_));
+  swap(_impl_.err_, other->_impl_.err_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GetAttrReply::GetMetadata() const {
@@ -3611,387 +3529,6 @@ void WriteReply::InternalSwap(WriteReply* other) {
 
 // ===================================================================
 
-class UnlinkReq::_Internal {
- public:
-};
-
-UnlinkReq::UnlinkReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:wiscAFS.UnlinkReq)
-}
-UnlinkReq::UnlinkReq(const UnlinkReq& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  UnlinkReq* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.path_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.path_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.path_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_path().empty()) {
-    _this->_impl_.path_.Set(from._internal_path(), 
-      _this->GetArenaForAllocation());
-  }
-  // @@protoc_insertion_point(copy_constructor:wiscAFS.UnlinkReq)
-}
-
-inline void UnlinkReq::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.path_){}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-  _impl_.path_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.path_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-}
-
-UnlinkReq::~UnlinkReq() {
-  // @@protoc_insertion_point(destructor:wiscAFS.UnlinkReq)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void UnlinkReq::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.path_.Destroy();
-}
-
-void UnlinkReq::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void UnlinkReq::Clear() {
-// @@protoc_insertion_point(message_clear_start:wiscAFS.UnlinkReq)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _impl_.path_.ClearToEmpty();
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* UnlinkReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // string path = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_path();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "wiscAFS.UnlinkReq.path"));
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* UnlinkReq::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:wiscAFS.UnlinkReq)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string path = 1;
-  if (!this->_internal_path().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_path().data(), static_cast<int>(this->_internal_path().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "wiscAFS.UnlinkReq.path");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_path(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:wiscAFS.UnlinkReq)
-  return target;
-}
-
-size_t UnlinkReq::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:wiscAFS.UnlinkReq)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // string path = 1;
-  if (!this->_internal_path().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_path());
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UnlinkReq::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    UnlinkReq::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UnlinkReq::GetClassData() const { return &_class_data_; }
-
-
-void UnlinkReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<UnlinkReq*>(&to_msg);
-  auto& from = static_cast<const UnlinkReq&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:wiscAFS.UnlinkReq)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (!from._internal_path().empty()) {
-    _this->_internal_set_path(from._internal_path());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void UnlinkReq::CopyFrom(const UnlinkReq& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:wiscAFS.UnlinkReq)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool UnlinkReq::IsInitialized() const {
-  return true;
-}
-
-void UnlinkReq::InternalSwap(UnlinkReq* other) {
-  using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.path_, lhs_arena,
-      &other->_impl_.path_, rhs_arena
-  );
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata UnlinkReq::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_wiscAFS_2eproto_getter, &descriptor_table_wiscAFS_2eproto_once,
-      file_level_metadata_wiscAFS_2eproto[14]);
-}
-
-// ===================================================================
-
-class UnlinkReply::_Internal {
- public:
-};
-
-UnlinkReply::UnlinkReply(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:wiscAFS.UnlinkReply)
-}
-UnlinkReply::UnlinkReply(const UnlinkReply& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  UnlinkReply* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.status_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.status_ = from._impl_.status_;
-  // @@protoc_insertion_point(copy_constructor:wiscAFS.UnlinkReply)
-}
-
-inline void UnlinkReply::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.status_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-}
-
-UnlinkReply::~UnlinkReply() {
-  // @@protoc_insertion_point(destructor:wiscAFS.UnlinkReply)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void UnlinkReply::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-}
-
-void UnlinkReply::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void UnlinkReply::Clear() {
-// @@protoc_insertion_point(message_clear_start:wiscAFS.UnlinkReply)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _impl_.status_ = 0;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* UnlinkReply::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // int32 status = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.status_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* UnlinkReply::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:wiscAFS.UnlinkReply)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // int32 status = 1;
-  if (this->_internal_status() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_status(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:wiscAFS.UnlinkReply)
-  return target;
-}
-
-size_t UnlinkReply::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:wiscAFS.UnlinkReply)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // int32 status = 1;
-  if (this->_internal_status() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_status());
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UnlinkReply::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    UnlinkReply::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UnlinkReply::GetClassData() const { return &_class_data_; }
-
-
-void UnlinkReply::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<UnlinkReply*>(&to_msg);
-  auto& from = static_cast<const UnlinkReply&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:wiscAFS.UnlinkReply)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from._internal_status() != 0) {
-    _this->_internal_set_status(from._internal_status());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void UnlinkReply::CopyFrom(const UnlinkReply& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:wiscAFS.UnlinkReply)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool UnlinkReply::IsInitialized() const {
-  return true;
-}
-
-void UnlinkReply::InternalSwap(UnlinkReply* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.status_, other->_impl_.status_);
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata UnlinkReply::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_wiscAFS_2eproto_getter, &descriptor_table_wiscAFS_2eproto_once,
-      file_level_metadata_wiscAFS_2eproto[15]);
-}
-
-// ===================================================================
-
 class HelloRequest::_Internal {
  public:
 };
@@ -4190,7 +3727,7 @@ void HelloRequest::InternalSwap(HelloRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata HelloRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_wiscAFS_2eproto_getter, &descriptor_table_wiscAFS_2eproto_once,
-      file_level_metadata_wiscAFS_2eproto[16]);
+      file_level_metadata_wiscAFS_2eproto[14]);
 }
 
 // ===================================================================
@@ -4393,7 +3930,7 @@ void HelloReply::InternalSwap(HelloReply* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata HelloReply::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_wiscAFS_2eproto_getter, &descriptor_table_wiscAFS_2eproto_once,
-      file_level_metadata_wiscAFS_2eproto[17]);
+      file_level_metadata_wiscAFS_2eproto[15]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -4454,14 +3991,6 @@ Arena::CreateMaybeMessage< ::wiscAFS::WriteReq >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::wiscAFS::WriteReply*
 Arena::CreateMaybeMessage< ::wiscAFS::WriteReply >(Arena* arena) {
   return Arena::CreateMessageInternal< ::wiscAFS::WriteReply >(arena);
-}
-template<> PROTOBUF_NOINLINE ::wiscAFS::UnlinkReq*
-Arena::CreateMaybeMessage< ::wiscAFS::UnlinkReq >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::wiscAFS::UnlinkReq >(arena);
-}
-template<> PROTOBUF_NOINLINE ::wiscAFS::UnlinkReply*
-Arena::CreateMaybeMessage< ::wiscAFS::UnlinkReply >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::wiscAFS::UnlinkReply >(arena);
 }
 template<> PROTOBUF_NOINLINE ::wiscAFS::HelloRequest*
 Arena::CreateMaybeMessage< ::wiscAFS::HelloRequest >(Arena* arena) {

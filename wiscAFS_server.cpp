@@ -35,11 +35,13 @@ using wiscAFS::MkDirReq;
 using wiscAFS::MkDirReply;
 using wiscAFS::RmDirReq;
 using wiscAFS::RmDirReply;
+using wiscAFS::UnlinkReq;
+using wiscAFS::UnlinkReply;
 using wiscAFS::HelloRequest;
 using wiscAFS::HelloReply;
 using wiscAFS::WiscAFS;
 
-#define BLOCK_SIZE 1048576 // 1Mb
+#define BLOCK_SIZE 4096 // 1Mb
 
 class WiscAFSImpl final : public WiscAFS::Service {
     public:
@@ -48,25 +50,29 @@ class WiscAFSImpl final : public WiscAFS::Service {
         WiscAFSImpl(): root_path(""){}
 
         Status GetAttr(ServerContext* context, const GetAttrReq* request, GetAttrReply* response) {
+            
             string path = root_path + request->path();
-            response->set_err(0);
-            printf("getAttr from path: %s \n", path.c_str());
+            printf("\nGetAttr: %s \n", path.c_str());
+            response->set_status(0);
             int res;
             struct stat stbuf;
             res = lstat(path.c_str(), &stbuf);
-            if ( res < 0){
-                response->set_err(-errno);
-                return Status::OK;
+            if ( res != -1){
+                string buf;
+                int stat_size = sizeof(struct stat);
+                buf.resize(stat_size);
+            //cout << "Buffer in getattr" << buf << endl;
+                memcpy(&buf[0], &stbuf, buf.size());
+                response->set_buf(buf);
+                response->set_status(0); 
+            }    
+            else{
+                response->set_err(errno);
+                response->set_status(-1);
             }
-
-            string buf;
-            int stat_size = sizeof(struct stat);
-            buf.resize(stat_size);
-            memcpy(&buf[0], &stbuf, buf.size());
-            response->set_buf(buf);    
-            response->set_err(res);;
-            return Status::OK;    
-
+            cout<<"\n status: "<<response->status()<<"\n error: "<< errno;
+	        
+                return Status::OK;
         }
 
         
@@ -79,13 +85,13 @@ class WiscAFSImpl final : public WiscAFS::Service {
 
             int res;
 
-            res = open(path.c_str(), request->flag()); 
+            res = open(path.c_str(), (mode_t)request->flag(),S_IRWXG | S_IRWXO | S_IRWXU); 
             if (res == -1) {
                 response->set_err(-errno);
                 return Status::OK;
             }
             close(res);
-            response->set_err(res);
+            response->set_err(0);
             return Status::OK;
         }
 
@@ -106,15 +112,16 @@ class WiscAFSImpl final : public WiscAFS::Service {
 
             string buf;
             buf.resize(size);
+            cout << "Request size" <<size;
             
             int bytesRead = pread(fd, &buf[0], size, offset);
+            cout << "Bytes read:" <<bytesRead;
             if (bytesRead != size) {
                 printf("Read: PREAD didn't read %d bytes from offset %d\n", size, offset);
             } 
             if (bytesRead == -1) {
                 reply->set_num_bytes(-errno);
             }
-            close(fd);
 
             int remainBytes = bytesRead;
             int curr = 0;
@@ -126,6 +133,8 @@ class WiscAFSImpl final : public WiscAFS::Service {
                 remainBytes -= BLOCK_SIZE;
                 writer->Write(*reply);
             }
+            if(fd > 0)
+                close(fd);
             return Status::OK;
         }
 
@@ -139,7 +148,7 @@ class WiscAFSImpl final : public WiscAFS::Service {
                 offset = request.offset();
                 string buf = request.buf();
                 if(num_bytes==0){
-                    fd = open(path.c_str(), O_WRONLY);
+                    fd = open(path.c_str(), O_CREAT | O_SYNC | O_WRONLY, S_IRWXG | S_IRWXO | S_IRWXU);
                     if (fd == -1) {
                         response->set_num_bytes(-errno);
                         return Status::OK;
@@ -159,6 +168,7 @@ class WiscAFSImpl final : public WiscAFS::Service {
                 close(fd);
             }
             response->set_num_bytes(num_bytes);
+            
             return Status::OK;
         }
 
@@ -175,16 +185,18 @@ class WiscAFSImpl final : public WiscAFS::Service {
                 reply->set_err(-errno);
                 return Status::OK;
             }
-
+            std::vector<std::string> dirs;
             while ((de = readdir(dp)) != NULL) {
                 std::string buf;
                 buf.resize(sizeof(struct dirent));
                 memcpy(&buf[0], de, buf.size());
-                reply->set_buf(buf);
+                dirs.push_back(buf);
+            }
+            closedir(dp);
+            for (auto dir: dirs){
+                reply->set_buf(dir);
                 writer->Write(*reply);
             }
-
-            closedir(dp);
             return Status::OK;
         }    
 
@@ -193,12 +205,14 @@ class WiscAFSImpl final : public WiscAFS::Service {
             response->set_err(0);
             printf("MkDir at path: %s \n", path.c_str());
             int res;
-            res = mkdir(path.c_str(), request->mode());
-            if ( res < 0){
-                response->set_err(-errno);
+            res = mkdir(path.c_str(), (mode_t)request->mode());
+            if ( res!= 0){
+                printf("error");
+		        response->set_err(-errno);
                 return Status::OK;
             }
-            response->set_err(res);
+	    printf("success");
+            response->set_err(0);
             return Status::OK;
     
         }
@@ -216,6 +230,22 @@ class WiscAFSImpl final : public WiscAFS::Service {
             response->set_err(res);
             return Status::OK;
     
+        }
+
+        Status Unlink(ServerContext* context, const UnlinkReq* request,
+                UnlinkReply* reply) override {
+            // default errno = 0
+            reply->set_status(0);
+            std::string path = root_path + request->path();
+            printf("Unlink: %s \n", path.c_str());
+            int res;
+            res = unlink(path.c_str());
+            if (res == -1) {
+                reply->set_status(-errno);
+                return Status::OK;
+            }
+            reply->set_status(res);
+            return Status::OK;
         }
 
 //========================================= Test Function =====================================

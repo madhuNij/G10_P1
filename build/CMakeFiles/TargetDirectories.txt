@@ -1,0 +1,4 @@
+/mnt/g10/build/CMakeFiles/wiscAFS_server.dir
+/mnt/g10/build/CMakeFiles/wiscAFS.dir
+/mnt/g10/build/CMakeFiles/edit_cache.dir
+/mnt/g10/build/CMakeFiles/rebuild_cache.dir

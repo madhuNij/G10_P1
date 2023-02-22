@@ -510,7 +510,7 @@ int connect_grpc_fuse_fgetattr(const char* path, struct stat* buf, struct fuse_f
   std::cout << "\nconnect_grpc_fuse_fgetattr" << std::endl;
 
   //path = Utility::constructRelativePath(path).c_str();
-  cout<<" path in fgetaatr "<<path.c_str();
+  cout<<" path in fgetaatr "<<path;
   int ret = fstat((int)fi->fh, buf);
   if (ret == -1) {
     cout<<"\nin if ";

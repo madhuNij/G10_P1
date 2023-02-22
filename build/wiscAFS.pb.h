@@ -87,12 +87,6 @@ extern RmDirReplyDefaultTypeInternal _RmDirReply_default_instance_;
 class RmDirReq;
 struct RmDirReqDefaultTypeInternal;
 extern RmDirReqDefaultTypeInternal _RmDirReq_default_instance_;
-class UnlinkReply;
-struct UnlinkReplyDefaultTypeInternal;
-extern UnlinkReplyDefaultTypeInternal _UnlinkReply_default_instance_;
-class UnlinkReq;
-struct UnlinkReqDefaultTypeInternal;
-extern UnlinkReqDefaultTypeInternal _UnlinkReq_default_instance_;
 class WriteReply;
 struct WriteReplyDefaultTypeInternal;
 extern WriteReplyDefaultTypeInternal _WriteReply_default_instance_;
@@ -115,8 +109,6 @@ template<> ::wiscAFS::ReadReply* Arena::CreateMaybeMessage<::wiscAFS::ReadReply>
 template<> ::wiscAFS::ReadReq* Arena::CreateMaybeMessage<::wiscAFS::ReadReq>(Arena*);
 template<> ::wiscAFS::RmDirReply* Arena::CreateMaybeMessage<::wiscAFS::RmDirReply>(Arena*);
 template<> ::wiscAFS::RmDirReq* Arena::CreateMaybeMessage<::wiscAFS::RmDirReq>(Arena*);
-template<> ::wiscAFS::UnlinkReply* Arena::CreateMaybeMessage<::wiscAFS::UnlinkReply>(Arena*);
-template<> ::wiscAFS::UnlinkReq* Arena::CreateMaybeMessage<::wiscAFS::UnlinkReq>(Arena*);
 template<> ::wiscAFS::WriteReply* Arena::CreateMaybeMessage<::wiscAFS::WriteReply>(Arena*);
 template<> ::wiscAFS::WriteReq* Arena::CreateMaybeMessage<::wiscAFS::WriteReq>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -1346,7 +1338,6 @@ class GetAttrReply final :
   enum : int {
     kBufFieldNumber = 2,
     kErrFieldNumber = 1,
-    kStatusFieldNumber = 3,
   };
   // bytes buf = 2;
   void clear_buf();
@@ -1371,15 +1362,6 @@ class GetAttrReply final :
   void _internal_set_err(int32_t value);
   public:
 
-  // int32 status = 3;
-  void clear_status();
-  int32_t status() const;
-  void set_status(int32_t value);
-  private:
-  int32_t _internal_status() const;
-  void _internal_set_status(int32_t value);
-  public:
-
   // @@protoc_insertion_point(class_scope:wiscAFS.GetAttrReply)
  private:
   class _Internal;
@@ -1390,7 +1372,6 @@ class GetAttrReply final :
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr buf_;
     int32_t err_;
-    int32_t status_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -2388,307 +2369,6 @@ class WriteReply final :
 };
 // -------------------------------------------------------------------
 
-class UnlinkReq final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:wiscAFS.UnlinkReq) */ {
- public:
-  inline UnlinkReq() : UnlinkReq(nullptr) {}
-  ~UnlinkReq() override;
-  explicit PROTOBUF_CONSTEXPR UnlinkReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  UnlinkReq(const UnlinkReq& from);
-  UnlinkReq(UnlinkReq&& from) noexcept
-    : UnlinkReq() {
-    *this = ::std::move(from);
-  }
-
-  inline UnlinkReq& operator=(const UnlinkReq& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline UnlinkReq& operator=(UnlinkReq&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const UnlinkReq& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const UnlinkReq* internal_default_instance() {
-    return reinterpret_cast<const UnlinkReq*>(
-               &_UnlinkReq_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    14;
-
-  friend void swap(UnlinkReq& a, UnlinkReq& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(UnlinkReq* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(UnlinkReq* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  UnlinkReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<UnlinkReq>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const UnlinkReq& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const UnlinkReq& from) {
-    UnlinkReq::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(UnlinkReq* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "wiscAFS.UnlinkReq";
-  }
-  protected:
-  explicit UnlinkReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kPathFieldNumber = 1,
-  };
-  // string path = 1;
-  void clear_path();
-  const std::string& path() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_path(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_path();
-  PROTOBUF_NODISCARD std::string* release_path();
-  void set_allocated_path(std::string* path);
-  private:
-  const std::string& _internal_path() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_path(const std::string& value);
-  std::string* _internal_mutable_path();
-  public:
-
-  // @@protoc_insertion_point(class_scope:wiscAFS.UnlinkReq)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr path_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_wiscAFS_2eproto;
-};
-// -------------------------------------------------------------------
-
-class UnlinkReply final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:wiscAFS.UnlinkReply) */ {
- public:
-  inline UnlinkReply() : UnlinkReply(nullptr) {}
-  ~UnlinkReply() override;
-  explicit PROTOBUF_CONSTEXPR UnlinkReply(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  UnlinkReply(const UnlinkReply& from);
-  UnlinkReply(UnlinkReply&& from) noexcept
-    : UnlinkReply() {
-    *this = ::std::move(from);
-  }
-
-  inline UnlinkReply& operator=(const UnlinkReply& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline UnlinkReply& operator=(UnlinkReply&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()
-  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetOwningArena() != nullptr
-  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const UnlinkReply& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const UnlinkReply* internal_default_instance() {
-    return reinterpret_cast<const UnlinkReply*>(
-               &_UnlinkReply_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    15;
-
-  friend void swap(UnlinkReply& a, UnlinkReply& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(UnlinkReply* other) {
-    if (other == this) return;
-  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() != nullptr &&
-        GetOwningArena() == other->GetOwningArena()) {
-   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetOwningArena() == other->GetOwningArena()) {
-  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(UnlinkReply* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  UnlinkReply* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<UnlinkReply>(arena);
-  }
-  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const UnlinkReply& from);
-  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const UnlinkReply& from) {
-    UnlinkReply::MergeImpl(*this, from);
-  }
-  private:
-  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
-  public:
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  uint8_t* _InternalSerialize(
-      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(UnlinkReply* other);
-
-  private:
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "wiscAFS.UnlinkReply";
-  }
-  protected:
-  explicit UnlinkReply(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                       bool is_message_owned = false);
-  public:
-
-  static const ClassData _class_data_;
-  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kStatusFieldNumber = 1,
-  };
-  // int32 status = 1;
-  void clear_status();
-  int32_t status() const;
-  void set_status(int32_t value);
-  private:
-  int32_t _internal_status() const;
-  void _internal_set_status(int32_t value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:wiscAFS.UnlinkReply)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  struct Impl_ {
-    int32_t status_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_wiscAFS_2eproto;
-};
-// -------------------------------------------------------------------
-
 class HelloRequest final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:wiscAFS.HelloRequest) */ {
  public:
@@ -2737,7 +2417,7 @@ class HelloRequest final :
                &_HelloRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    14;
 
   friend void swap(HelloRequest& a, HelloRequest& b) {
     a.Swap(&b);
@@ -2890,7 +2570,7 @@ class HelloReply final :
                &_HelloReply_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    15;
 
   friend void swap(HelloReply& a, HelloReply& b) {
     a.Swap(&b);
@@ -3412,26 +3092,6 @@ inline void GetAttrReq::set_allocated_buf(std::string* buf) {
 
 // GetAttrReply
 
-// int32 err = 1;
-inline void GetAttrReply::clear_err() {
-  _impl_.err_ = 0;
-}
-inline int32_t GetAttrReply::_internal_err() const {
-  return _impl_.err_;
-}
-inline int32_t GetAttrReply::err() const {
-  // @@protoc_insertion_point(field_get:wiscAFS.GetAttrReply.err)
-  return _internal_err();
-}
-inline void GetAttrReply::_internal_set_err(int32_t value) {
-  
-  _impl_.err_ = value;
-}
-inline void GetAttrReply::set_err(int32_t value) {
-  _internal_set_err(value);
-  // @@protoc_insertion_point(field_set:wiscAFS.GetAttrReply.err)
-}
-
 // bytes buf = 2;
 inline void GetAttrReply::clear_buf() {
   _impl_.buf_.ClearToEmpty();
@@ -3482,24 +3142,24 @@ inline void GetAttrReply::set_allocated_buf(std::string* buf) {
   // @@protoc_insertion_point(field_set_allocated:wiscAFS.GetAttrReply.buf)
 }
 
-// int32 status = 3;
-inline void GetAttrReply::clear_status() {
-  _impl_.status_ = 0;
+// int32 err = 1;
+inline void GetAttrReply::clear_err() {
+  _impl_.err_ = 0;
 }
-inline int32_t GetAttrReply::_internal_status() const {
-  return _impl_.status_;
+inline int32_t GetAttrReply::_internal_err() const {
+  return _impl_.err_;
 }
-inline int32_t GetAttrReply::status() const {
-  // @@protoc_insertion_point(field_get:wiscAFS.GetAttrReply.status)
-  return _internal_status();
+inline int32_t GetAttrReply::err() const {
+  // @@protoc_insertion_point(field_get:wiscAFS.GetAttrReply.err)
+  return _internal_err();
 }
-inline void GetAttrReply::_internal_set_status(int32_t value) {
+inline void GetAttrReply::_internal_set_err(int32_t value) {
   
-  _impl_.status_ = value;
+  _impl_.err_ = value;
 }
-inline void GetAttrReply::set_status(int32_t value) {
-  _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:wiscAFS.GetAttrReply.status)
+inline void GetAttrReply::set_err(int32_t value) {
+  _internal_set_err(value);
+  // @@protoc_insertion_point(field_set:wiscAFS.GetAttrReply.err)
 }
 
 // -------------------------------------------------------------------
@@ -3938,84 +3598,6 @@ inline void WriteReply::set_num_bytes(int32_t value) {
 
 // -------------------------------------------------------------------
 
-// UnlinkReq
-
-// string path = 1;
-inline void UnlinkReq::clear_path() {
-  _impl_.path_.ClearToEmpty();
-}
-inline const std::string& UnlinkReq::path() const {
-  // @@protoc_insertion_point(field_get:wiscAFS.UnlinkReq.path)
-  return _internal_path();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void UnlinkReq::set_path(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.path_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:wiscAFS.UnlinkReq.path)
-}
-inline std::string* UnlinkReq::mutable_path() {
-  std::string* _s = _internal_mutable_path();
-  // @@protoc_insertion_point(field_mutable:wiscAFS.UnlinkReq.path)
-  return _s;
-}
-inline const std::string& UnlinkReq::_internal_path() const {
-  return _impl_.path_.Get();
-}
-inline void UnlinkReq::_internal_set_path(const std::string& value) {
-  
-  _impl_.path_.Set(value, GetArenaForAllocation());
-}
-inline std::string* UnlinkReq::_internal_mutable_path() {
-  
-  return _impl_.path_.Mutable(GetArenaForAllocation());
-}
-inline std::string* UnlinkReq::release_path() {
-  // @@protoc_insertion_point(field_release:wiscAFS.UnlinkReq.path)
-  return _impl_.path_.Release();
-}
-inline void UnlinkReq::set_allocated_path(std::string* path) {
-  if (path != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.path_.SetAllocated(path, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.path_.IsDefault()) {
-    _impl_.path_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:wiscAFS.UnlinkReq.path)
-}
-
-// -------------------------------------------------------------------
-
-// UnlinkReply
-
-// int32 status = 1;
-inline void UnlinkReply::clear_status() {
-  _impl_.status_ = 0;
-}
-inline int32_t UnlinkReply::_internal_status() const {
-  return _impl_.status_;
-}
-inline int32_t UnlinkReply::status() const {
-  // @@protoc_insertion_point(field_get:wiscAFS.UnlinkReply.status)
-  return _internal_status();
-}
-inline void UnlinkReply::_internal_set_status(int32_t value) {
-  
-  _impl_.status_ = value;
-}
-inline void UnlinkReply::set_status(int32_t value) {
-  _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:wiscAFS.UnlinkReply.status)
-}
-
-// -------------------------------------------------------------------
-
 // HelloRequest
 
 // string name = 1;
@@ -4125,10 +3707,6 @@ inline void HelloReply::set_allocated_message(std::string* message) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

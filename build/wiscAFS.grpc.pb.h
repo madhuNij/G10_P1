@@ -91,13 +91,6 @@ class WiscAFS final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::RmDirReply>> PrepareAsyncRmDir(::grpc::ClientContext* context, const ::wiscAFS::RmDirReq& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::RmDirReply>>(PrepareAsyncRmDirRaw(context, request, cq));
     }
-    virtual ::grpc::Status Unlink(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq& request, ::wiscAFS::UnlinkReply* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::UnlinkReply>> AsyncUnlink(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::UnlinkReply>>(AsyncUnlinkRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::UnlinkReply>> PrepareAsyncUnlink(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::UnlinkReply>>(PrepareAsyncUnlinkRaw(context, request, cq));
-    }
     virtual ::grpc::Status SayHello(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest& request, ::wiscAFS::HelloReply* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::HelloReply>> AsyncSayHello(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::HelloReply>>(AsyncSayHelloRaw(context, request, cq));
@@ -119,8 +112,6 @@ class WiscAFS final {
       virtual void MkDir(::grpc::ClientContext* context, const ::wiscAFS::MkDirReq* request, ::wiscAFS::MkDirReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void RmDir(::grpc::ClientContext* context, const ::wiscAFS::RmDirReq* request, ::wiscAFS::RmDirReply* response, std::function<void(::grpc::Status)>) = 0;
       virtual void RmDir(::grpc::ClientContext* context, const ::wiscAFS::RmDirReq* request, ::wiscAFS::RmDirReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
-      virtual void Unlink(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq* request, ::wiscAFS::UnlinkReply* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void Unlink(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq* request, ::wiscAFS::UnlinkReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void SayHello(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest* request, ::wiscAFS::HelloReply* response, std::function<void(::grpc::Status)>) = 0;
       virtual void SayHello(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest* request, ::wiscAFS::HelloReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
@@ -145,8 +136,6 @@ class WiscAFS final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::MkDirReply>* PrepareAsyncMkDirRaw(::grpc::ClientContext* context, const ::wiscAFS::MkDirReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::RmDirReply>* AsyncRmDirRaw(::grpc::ClientContext* context, const ::wiscAFS::RmDirReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::RmDirReply>* PrepareAsyncRmDirRaw(::grpc::ClientContext* context, const ::wiscAFS::RmDirReq& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::UnlinkReply>* AsyncUnlinkRaw(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::UnlinkReply>* PrepareAsyncUnlinkRaw(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::HelloReply>* AsyncSayHelloRaw(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::wiscAFS::HelloReply>* PrepareAsyncSayHelloRaw(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
@@ -208,13 +197,6 @@ class WiscAFS final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::wiscAFS::RmDirReply>> PrepareAsyncRmDir(::grpc::ClientContext* context, const ::wiscAFS::RmDirReq& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::wiscAFS::RmDirReply>>(PrepareAsyncRmDirRaw(context, request, cq));
     }
-    ::grpc::Status Unlink(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq& request, ::wiscAFS::UnlinkReply* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::wiscAFS::UnlinkReply>> AsyncUnlink(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::wiscAFS::UnlinkReply>>(AsyncUnlinkRaw(context, request, cq));
-    }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::wiscAFS::UnlinkReply>> PrepareAsyncUnlink(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::wiscAFS::UnlinkReply>>(PrepareAsyncUnlinkRaw(context, request, cq));
-    }
     ::grpc::Status SayHello(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest& request, ::wiscAFS::HelloReply* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::wiscAFS::HelloReply>> AsyncSayHello(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::wiscAFS::HelloReply>>(AsyncSayHelloRaw(context, request, cq));
@@ -236,8 +218,6 @@ class WiscAFS final {
       void MkDir(::grpc::ClientContext* context, const ::wiscAFS::MkDirReq* request, ::wiscAFS::MkDirReply* response, ::grpc::ClientUnaryReactor* reactor) override;
       void RmDir(::grpc::ClientContext* context, const ::wiscAFS::RmDirReq* request, ::wiscAFS::RmDirReply* response, std::function<void(::grpc::Status)>) override;
       void RmDir(::grpc::ClientContext* context, const ::wiscAFS::RmDirReq* request, ::wiscAFS::RmDirReply* response, ::grpc::ClientUnaryReactor* reactor) override;
-      void Unlink(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq* request, ::wiscAFS::UnlinkReply* response, std::function<void(::grpc::Status)>) override;
-      void Unlink(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq* request, ::wiscAFS::UnlinkReply* response, ::grpc::ClientUnaryReactor* reactor) override;
       void SayHello(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest* request, ::wiscAFS::HelloReply* response, std::function<void(::grpc::Status)>) override;
       void SayHello(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest* request, ::wiscAFS::HelloReply* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
@@ -268,8 +248,6 @@ class WiscAFS final {
     ::grpc::ClientAsyncResponseReader< ::wiscAFS::MkDirReply>* PrepareAsyncMkDirRaw(::grpc::ClientContext* context, const ::wiscAFS::MkDirReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::wiscAFS::RmDirReply>* AsyncRmDirRaw(::grpc::ClientContext* context, const ::wiscAFS::RmDirReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::wiscAFS::RmDirReply>* PrepareAsyncRmDirRaw(::grpc::ClientContext* context, const ::wiscAFS::RmDirReq& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::wiscAFS::UnlinkReply>* AsyncUnlinkRaw(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::wiscAFS::UnlinkReply>* PrepareAsyncUnlinkRaw(::grpc::ClientContext* context, const ::wiscAFS::UnlinkReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::wiscAFS::HelloReply>* AsyncSayHelloRaw(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::wiscAFS::HelloReply>* PrepareAsyncSayHelloRaw(::grpc::ClientContext* context, const ::wiscAFS::HelloRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_GetAttr_;
@@ -279,7 +257,6 @@ class WiscAFS final {
     const ::grpc::internal::RpcMethod rpcmethod_ReadDir_;
     const ::grpc::internal::RpcMethod rpcmethod_MkDir_;
     const ::grpc::internal::RpcMethod rpcmethod_RmDir_;
-    const ::grpc::internal::RpcMethod rpcmethod_Unlink_;
     const ::grpc::internal::RpcMethod rpcmethod_SayHello_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
@@ -295,7 +272,6 @@ class WiscAFS final {
     virtual ::grpc::Status ReadDir(::grpc::ServerContext* context, const ::wiscAFS::ReadDirReq* request, ::grpc::ServerWriter< ::wiscAFS::ReadDirReply>* writer);
     virtual ::grpc::Status MkDir(::grpc::ServerContext* context, const ::wiscAFS::MkDirReq* request, ::wiscAFS::MkDirReply* response);
     virtual ::grpc::Status RmDir(::grpc::ServerContext* context, const ::wiscAFS::RmDirReq* request, ::wiscAFS::RmDirReply* response);
-    virtual ::grpc::Status Unlink(::grpc::ServerContext* context, const ::wiscAFS::UnlinkReq* request, ::wiscAFS::UnlinkReply* response);
     virtual ::grpc::Status SayHello(::grpc::ServerContext* context, const ::wiscAFS::HelloRequest* request, ::wiscAFS::HelloReply* response);
   };
   template <class BaseClass>
@@ -439,32 +415,12 @@ class WiscAFS final {
     }
   };
   template <class BaseClass>
-  class WithAsyncMethod_Unlink : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithAsyncMethod_Unlink() {
-      ::grpc::Service::MarkMethodAsync(7);
-    }
-    ~WithAsyncMethod_Unlink() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status Unlink(::grpc::ServerContext* /*context*/, const ::wiscAFS::UnlinkReq* /*request*/, ::wiscAFS::UnlinkReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestUnlink(::grpc::ServerContext* context, ::wiscAFS::UnlinkReq* request, ::grpc::ServerAsyncResponseWriter< ::wiscAFS::UnlinkReply>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
   class WithAsyncMethod_SayHello : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_SayHello() {
-      ::grpc::Service::MarkMethodAsync(8);
+      ::grpc::Service::MarkMethodAsync(7);
     }
     ~WithAsyncMethod_SayHello() override {
       BaseClassMustBeDerivedFromService(this);
@@ -475,10 +431,10 @@ class WiscAFS final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestSayHello(::grpc::ServerContext* context, ::wiscAFS::HelloRequest* request, ::grpc::ServerAsyncResponseWriter< ::wiscAFS::HelloReply>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_GetAttr<WithAsyncMethod_Open<WithAsyncMethod_Read<WithAsyncMethod_Write<WithAsyncMethod_ReadDir<WithAsyncMethod_MkDir<WithAsyncMethod_RmDir<WithAsyncMethod_Unlink<WithAsyncMethod_SayHello<Service > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_GetAttr<WithAsyncMethod_Open<WithAsyncMethod_Read<WithAsyncMethod_Write<WithAsyncMethod_ReadDir<WithAsyncMethod_MkDir<WithAsyncMethod_RmDir<WithAsyncMethod_SayHello<Service > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_GetAttr : public BaseClass {
    private:
@@ -654,45 +610,18 @@ class WiscAFS final {
       ::grpc::CallbackServerContext* /*context*/, const ::wiscAFS::RmDirReq* /*request*/, ::wiscAFS::RmDirReply* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class WithCallbackMethod_Unlink : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithCallbackMethod_Unlink() {
-      ::grpc::Service::MarkMethodCallback(7,
-          new ::grpc::internal::CallbackUnaryHandler< ::wiscAFS::UnlinkReq, ::wiscAFS::UnlinkReply>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::wiscAFS::UnlinkReq* request, ::wiscAFS::UnlinkReply* response) { return this->Unlink(context, request, response); }));}
-    void SetMessageAllocatorFor_Unlink(
-        ::grpc::MessageAllocator< ::wiscAFS::UnlinkReq, ::wiscAFS::UnlinkReply>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::wiscAFS::UnlinkReq, ::wiscAFS::UnlinkReply>*>(handler)
-              ->SetMessageAllocator(allocator);
-    }
-    ~WithCallbackMethod_Unlink() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status Unlink(::grpc::ServerContext* /*context*/, const ::wiscAFS::UnlinkReq* /*request*/, ::wiscAFS::UnlinkReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual ::grpc::ServerUnaryReactor* Unlink(
-      ::grpc::CallbackServerContext* /*context*/, const ::wiscAFS::UnlinkReq* /*request*/, ::wiscAFS::UnlinkReply* /*response*/)  { return nullptr; }
-  };
-  template <class BaseClass>
   class WithCallbackMethod_SayHello : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_SayHello() {
-      ::grpc::Service::MarkMethodCallback(8,
+      ::grpc::Service::MarkMethodCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::wiscAFS::HelloRequest, ::wiscAFS::HelloReply>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::wiscAFS::HelloRequest* request, ::wiscAFS::HelloReply* response) { return this->SayHello(context, request, response); }));}
     void SetMessageAllocatorFor_SayHello(
         ::grpc::MessageAllocator< ::wiscAFS::HelloRequest, ::wiscAFS::HelloReply>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::wiscAFS::HelloRequest, ::wiscAFS::HelloReply>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -707,7 +636,7 @@ class WiscAFS final {
     virtual ::grpc::ServerUnaryReactor* SayHello(
       ::grpc::CallbackServerContext* /*context*/, const ::wiscAFS::HelloRequest* /*request*/, ::wiscAFS::HelloReply* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_GetAttr<WithCallbackMethod_Open<WithCallbackMethod_Read<WithCallbackMethod_Write<WithCallbackMethod_ReadDir<WithCallbackMethod_MkDir<WithCallbackMethod_RmDir<WithCallbackMethod_Unlink<WithCallbackMethod_SayHello<Service > > > > > > > > > CallbackService;
+  typedef WithCallbackMethod_GetAttr<WithCallbackMethod_Open<WithCallbackMethod_Read<WithCallbackMethod_Write<WithCallbackMethod_ReadDir<WithCallbackMethod_MkDir<WithCallbackMethod_RmDir<WithCallbackMethod_SayHello<Service > > > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_GetAttr : public BaseClass {
@@ -829,29 +758,12 @@ class WiscAFS final {
     }
   };
   template <class BaseClass>
-  class WithGenericMethod_Unlink : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithGenericMethod_Unlink() {
-      ::grpc::Service::MarkMethodGeneric(7);
-    }
-    ~WithGenericMethod_Unlink() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status Unlink(::grpc::ServerContext* /*context*/, const ::wiscAFS::UnlinkReq* /*request*/, ::wiscAFS::UnlinkReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
   class WithGenericMethod_SayHello : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_SayHello() {
-      ::grpc::Service::MarkMethodGeneric(8);
+      ::grpc::Service::MarkMethodGeneric(7);
     }
     ~WithGenericMethod_SayHello() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1003,32 +915,12 @@ class WiscAFS final {
     }
   };
   template <class BaseClass>
-  class WithRawMethod_Unlink : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawMethod_Unlink() {
-      ::grpc::Service::MarkMethodRaw(7);
-    }
-    ~WithRawMethod_Unlink() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status Unlink(::grpc::ServerContext* /*context*/, const ::wiscAFS::UnlinkReq* /*request*/, ::wiscAFS::UnlinkReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestUnlink(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  template <class BaseClass>
   class WithRawMethod_SayHello : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_SayHello() {
-      ::grpc::Service::MarkMethodRaw(8);
+      ::grpc::Service::MarkMethodRaw(7);
     }
     ~WithRawMethod_SayHello() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1039,7 +931,7 @@ class WiscAFS final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestSayHello(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1197,34 +1089,12 @@ class WiscAFS final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
-  class WithRawCallbackMethod_Unlink : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithRawCallbackMethod_Unlink() {
-      ::grpc::Service::MarkMethodRawCallback(7,
-          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
-            [this](
-                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Unlink(context, request, response); }));
-    }
-    ~WithRawCallbackMethod_Unlink() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status Unlink(::grpc::ServerContext* /*context*/, const ::wiscAFS::UnlinkReq* /*request*/, ::wiscAFS::UnlinkReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    virtual ::grpc::ServerUnaryReactor* Unlink(
-      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
-  };
-  template <class BaseClass>
   class WithRawCallbackMethod_SayHello : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_SayHello() {
-      ::grpc::Service::MarkMethodRawCallback(8,
+      ::grpc::Service::MarkMethodRawCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SayHello(context, request, response); }));
@@ -1349,39 +1219,12 @@ class WiscAFS final {
     virtual ::grpc::Status StreamedRmDir(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::wiscAFS::RmDirReq,::wiscAFS::RmDirReply>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
-  class WithStreamedUnaryMethod_Unlink : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
-   public:
-    WithStreamedUnaryMethod_Unlink() {
-      ::grpc::Service::MarkMethodStreamed(7,
-        new ::grpc::internal::StreamedUnaryHandler<
-          ::wiscAFS::UnlinkReq, ::wiscAFS::UnlinkReply>(
-            [this](::grpc::ServerContext* context,
-                   ::grpc::ServerUnaryStreamer<
-                     ::wiscAFS::UnlinkReq, ::wiscAFS::UnlinkReply>* streamer) {
-                       return this->StreamedUnlink(context,
-                         streamer);
-                  }));
-    }
-    ~WithStreamedUnaryMethod_Unlink() override {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable regular version of this method
-    ::grpc::Status Unlink(::grpc::ServerContext* /*context*/, const ::wiscAFS::UnlinkReq* /*request*/, ::wiscAFS::UnlinkReply* /*response*/) override {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedUnlink(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::wiscAFS::UnlinkReq,::wiscAFS::UnlinkReply>* server_unary_streamer) = 0;
-  };
-  template <class BaseClass>
   class WithStreamedUnaryMethod_SayHello : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_SayHello() {
-      ::grpc::Service::MarkMethodStreamed(8,
+      ::grpc::Service::MarkMethodStreamed(7,
         new ::grpc::internal::StreamedUnaryHandler<
           ::wiscAFS::HelloRequest, ::wiscAFS::HelloReply>(
             [this](::grpc::ServerContext* context,
@@ -1402,7 +1245,7 @@ class WiscAFS final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedSayHello(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::wiscAFS::HelloRequest,::wiscAFS::HelloReply>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_GetAttr<WithStreamedUnaryMethod_Open<WithStreamedUnaryMethod_MkDir<WithStreamedUnaryMethod_RmDir<WithStreamedUnaryMethod_Unlink<WithStreamedUnaryMethod_SayHello<Service > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_GetAttr<WithStreamedUnaryMethod_Open<WithStreamedUnaryMethod_MkDir<WithStreamedUnaryMethod_RmDir<WithStreamedUnaryMethod_SayHello<Service > > > > > StreamedUnaryService;
   template <class BaseClass>
   class WithSplitStreamingMethod_Read : public BaseClass {
    private:
@@ -1458,7 +1301,7 @@ class WiscAFS final {
     virtual ::grpc::Status StreamedReadDir(::grpc::ServerContext* context, ::grpc::ServerSplitStreamer< ::wiscAFS::ReadDirReq,::wiscAFS::ReadDirReply>* server_split_streamer) = 0;
   };
   typedef WithSplitStreamingMethod_Read<WithSplitStreamingMethod_ReadDir<Service > > SplitStreamedService;
-  typedef WithStreamedUnaryMethod_GetAttr<WithStreamedUnaryMethod_Open<WithSplitStreamingMethod_Read<WithSplitStreamingMethod_ReadDir<WithStreamedUnaryMethod_MkDir<WithStreamedUnaryMethod_RmDir<WithStreamedUnaryMethod_Unlink<WithStreamedUnaryMethod_SayHello<Service > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_GetAttr<WithStreamedUnaryMethod_Open<WithSplitStreamingMethod_Read<WithSplitStreamingMethod_ReadDir<WithStreamedUnaryMethod_MkDir<WithStreamedUnaryMethod_RmDir<WithStreamedUnaryMethod_SayHello<Service > > > > > > > StreamedService;
 };
 
 }  // namespace wiscAFS
