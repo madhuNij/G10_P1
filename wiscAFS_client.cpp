@@ -1,17 +1,31 @@
+using namespace std;
 #include "./wiscAFS_client.h"
+#include "./writeFile.h"
 
 WiscAFSClient::WiscAFSClient(std::shared_ptr<Channel> channel) : stub_(WiscAFS::NewStub(channel)){}
 
-int WiscAFSClient::GetAttr(const std::string &path, struct stat *sb)
+int WiscAFSClient::GetAttr(const std::string &path, struct stat *sb, int &errornum)
 {
     GetAttrReq request;
     request.set_path(path);
     GetAttrReply reply;
     ClientContext context;
     Status status = stub_->GetAttr(&context, request, &reply);
-    cout << "Status:" << status.ok();
-    if (status.ok())
+    //cout << "Status:" << status.ok();
+    cout << "status: " << status.ok();
+
+    if(!status.ok())
     {
+        cout << "Getattr status not ok\n";
+        errornum = reply.err();
+        //cout<<"\n status: "<<reply.status()<<"\n error: "<<reply.err();
+        return -1;
+    }
+    else if(reply.status()!=0){
+    //cout<<"\n status: "<<reply.status()<<"\n error: "<<reply.err();
+    errornum = reply.err();
+    return -1;
+    }
         string buf = reply.buf();
 
         // print buf details using stat structure
@@ -57,28 +71,27 @@ int WiscAFSClient::GetAttr(const std::string &path, struct stat *sb)
         cout << "Last status change:       " << ctime(&sb->st_ctime) << endl;
         cout << "Last file access:         " << ctime(&sb->st_atime) << endl;
         cout << "Last file modification:   " << ctime(&sb->st_mtime) << endl;
+       // cout << "Reply err:\n" << reply.err();
 
-        return reply.err();
-    }
-    else
-    {
-        cout << "Getattr return -1";
-        return -1;
-    }
+        cout<<"\n in successL- status: "<<reply.status()<<"\n error: "<<reply.err();
+        return 0;
 }
 
 int WiscAFSClient::Open(const string &path, int flag){
+    cout << "In Open";
     OpenReq request;
     request.set_path(path);
     request.set_flag(flag);
     OpenReply reply;
     ClientContext context;
     Status status = stub_->Open(&context, request, &reply);
-
+    cout << "open status" << status.ok();
+    cout << "open reply status" << reply.err();
     return status.ok() ? reply.err() : -1;
 }
 
 int WiscAFSClient::Read(const string &path, string &buf, int size, int offset){
+    cout << "In Read";
     ReadReq request;
     request.set_path(path);
     request.set_size(size);
@@ -95,13 +108,14 @@ int WiscAFSClient::Read(const string &path, string &buf, int size, int offset){
             break;
         }
     }
-    cout << "Size:" << size << "Path:" << path << endl;
-    cout << "Buf:" << buf;
+    cout << "Read Size:" << size << "Read Path:" << path << endl;
+    cout << "Read Buf:" << buf;
     Status status = reader->Finish();
-    return status.ok() ? buf.size() : -1;
+    return status.ok() ? reply.num_bytes() : status.error_code();
 }
 
 int WiscAFSClient::Write(const string &path, string& data, int size, int offset){
+    cout << "In Write";
     WriteReq request;
     WriteReply reply;
     ClientContext context;
@@ -120,14 +134,16 @@ int WiscAFSClient::Write(const string &path, string& data, int size, int offset)
             break;
         }
     }
+    
     writer->WritesDone();
     Status status = writer->Finish();
-
+    // cout << "\nWrite Status:" <<status << endl;
     return status.ok() ? reply.num_bytes() : -1;
 
 }
 
 int WiscAFSClient::ReadDir(const string& path, vector<string>& buf) {
+    cout << "In Read Dir" << endl;
     ReadDirReq request;
     request.set_path(path);
 
@@ -144,19 +160,21 @@ int WiscAFSClient::ReadDir(const string& path, vector<string>& buf) {
     }
 
     Status status = reader->Finish();
+    // cout << "In Read Dir status:" << status << endl;
 
     return status.ok() ? reply.err() : -1;
 }
 
 int WiscAFSClient::MkDir(const string& path, int mode) {
+    cout << "In Mkdir Dir:" << endl;
     MkDirReq request;
     request.set_path(path);
-    request.set_mode(mode);
+    request.set_mode((mode_t)mode);
 
     MkDirReply reply;
     ClientContext context;
     Status status = stub_->MkDir(&context, request, &reply);
-
+    // cout << "In Mkdir Dir status:" << status << endl;
     return status.ok() ? reply.err() : -1;
 }
 
@@ -170,6 +188,17 @@ int WiscAFSClient::RmDir(const std::string& path) {
 
     return status.ok() ? reply.err() : -1;
 }
+
+int WiscAFSClient::Unlink(const std::string& path){
+        UnlinkReq request;
+        request.set_path(path);
+
+        UnlinkReply reply;
+        ClientContext context;
+        Status status = stub_->Unlink(&context, request, &reply);
+        return reply.status();
+}
+
 //============================Testing=============
 string WiscAFSClient::SayHello(const std::string &user)
 {

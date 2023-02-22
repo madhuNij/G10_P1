@@ -81,12 +81,7 @@ int unreliable_lstat(const char *path, struct stat *buf)
         return ret;
     }
 
-    memset(buf, 0, sizeof(struct stat));
-    if (lstat(path, buf) == -1) {
-        return -errno;
-    }
-
-    return 0;
+    return connect_grpc_fuse_lstat(path, buf);
 }
 
 int unreliable_getattr(const char *path, struct stat *buf)
@@ -110,13 +105,7 @@ int unreliable_readlink(const char *path, char *buf, size_t bufsiz)
         return ret;
     }
 
-    ret = readlink(path, buf, bufsiz);
-    if (ret == -1) {
-        return -errno;
-    }
-    buf[ret] = 0;
-
-    return 0;
+    return connect_grpc_fuse_readlink(path, buf, bufsiz);
 }
 
 int unreliable_mknod(const char *path, mode_t mode, dev_t dev)
@@ -128,12 +117,7 @@ int unreliable_mknod(const char *path, mode_t mode, dev_t dev)
         return ret;
     }
 
-    ret = mknod(path, mode, dev);    
-    if (ret == -1) {
-        return -errno;
-    }
-
-    return 0;
+   return connect_grpc_fuse_mknod(path, mode, dev);
 }
 
 int unreliable_mkdir(const char *path, mode_t mode)
@@ -158,12 +142,7 @@ int unreliable_unlink(const char *path)
         return ret;
     }
 
-    ret = unlink(path); 
-    if (ret == -1) {
-        return -errno;
-    }
-
-    return 0;
+    return connect_grpc_fuse_unlink(path);
 }
 
 int unreliable_rmdir(const char *path)
@@ -189,12 +168,8 @@ int unreliable_symlink(const char *target, const char *linkpath)
         return ret;
     }
 
-    ret = symlink(target, linkpath);
-    if (ret == -1) {
-        return -errno;
-    }
+    return connect_grpc_fuse_symlink(target, linkpath);
 
-    return 0;
 }
 
 int unreliable_rename(const char *oldpath, const char *newpath)
@@ -206,12 +181,7 @@ int unreliable_rename(const char *oldpath, const char *newpath)
         return ret;
     }
 
-    ret = rename(oldpath, newpath);
-    if (ret == -1) {
-        return -errno;
-    }
-
-    return 0;
+    return connect_grpc_fuse_rename(oldpath, newpath);
 }
 
 int unreliable_link(const char *oldpath, const char *newpath)
@@ -223,12 +193,7 @@ int unreliable_link(const char *oldpath, const char *newpath)
         return ret;
     }
 
-    ret = link(oldpath, newpath);
-    if (ret < 0) {
-        return -errno;
-    }
-
-    return 0;
+    return connect_grpc_fuse_link(oldpath, newpath);
 }
 
 int unreliable_chmod(const char *path, mode_t mode)
@@ -240,16 +205,10 @@ int unreliable_chmod(const char *path, mode_t mode)
         return ret;
     }
     
-    ret = chmod(path, mode);
-    if (ret < 0) {
-        return -errno;
-    }
-
-    return 0;
+return connect_grpc_fuse_chmod(path, mode);
 }
 
-int unreliable_chown(const char *path, uid_t owner, gid_t group)
-{
+int unreliable_chown(const char *path, uid_t owner, gid_t group) {
     int ret = error_inject(path, OP_CHOWN);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -257,16 +216,10 @@ int unreliable_chown(const char *path, uid_t owner, gid_t group)
         return ret;
     }
 
-    ret = chown(path, owner, group);
-    if (ret == -1) {
-        return -errno;
-    }
-
-    return 0;
+    return connect_grpc_fuse_chown(path, owner, group);
 }
 
-int unreliable_truncate(const char *path, off_t length)
-{
+int unreliable_truncate(const char *path, off_t length) {
     int ret = error_inject(path, OP_TRUNCATE);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -274,12 +227,7 @@ int unreliable_truncate(const char *path, off_t length)
         return ret;
     }
 
-    ret = truncate(path, length); 
-    if (ret == -1) {
-        return -errno;
-    }
-
-    return 0;
+    return connect_grpc_fuse_truncate(path, length);
 }
 
 int unreliable_open(const char *path, struct fuse_file_info *fi)
@@ -325,8 +273,7 @@ int unreliable_write(const char *path, const char *buf, size_t size,
     //return 0;
 }
 
-int unreliable_statfs(const char *path, struct statvfs *buf)
-{
+int unreliable_statfs(const char *path, struct statvfs *buf) {
     int ret = error_inject(path, OP_STATFS);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -334,16 +281,10 @@ int unreliable_statfs(const char *path, struct statvfs *buf)
         return ret;
     }
 
-    ret = statvfs(path, buf);
-    if (ret == -1) {
-        return -errno;
-    }
-
-    return 0;
+    return connect_grpc_fuse_statfs(path, buf);
 }
 
-int unreliable_flush(const char *path, struct fuse_file_info *fi)
-{
+int unreliable_flush(const char *path, struct fuse_file_info *fi) {
     int ret = error_inject(path, OP_FLUSH);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -351,16 +292,10 @@ int unreliable_flush(const char *path, struct fuse_file_info *fi)
         return ret;
     }
 
-    ret = close(dup(fi->fh));
-    if (ret == -1) {
-        return -errno;
-    }
-
-    return 0;
+    return connect_grpc_fuse_flush(path, fi);
 }
 
-int unreliable_release(const char *path, struct fuse_file_info *fi)
-{
+int unreliable_release(const char *path, struct fuse_file_info *fi) {
     int ret = error_inject(path, OP_RELEASE);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -368,16 +303,10 @@ int unreliable_release(const char *path, struct fuse_file_info *fi)
         return ret;
     }
 
-    ret = close(fi->fh);
-    if (ret == -1) {
-        return -errno;
-    }
-
-    return 0;    
+    return connect_grpc_fuse_release(path, fi);
 }
 
-int unreliable_fsync(const char *path, int datasync, struct fuse_file_info *fi)
-{
+int unreliable_fsync(const char *path, int datasync, struct fuse_file_info *fi) {
     int ret = error_inject(path, OP_FSYNC);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -385,25 +314,11 @@ int unreliable_fsync(const char *path, int datasync, struct fuse_file_info *fi)
         return ret;
     }
 
-    if (datasync) {
-        ret = fdatasync(fi->fh);
-        if (ret == -1) {
-            return -errno;
-        }
-    } else {
-        ret = fsync(fi->fh);
-        if (ret == -1) {
-            return -errno;
-        }
-    }
-
-    return 0;
+    return connect_grpc_fuse_fsync(path, datasync, fi);
 }
 
 #ifdef HAVE_XATTR
-int unreliable_setxattr(const char *path, const char *name,
-                        const char *value, size_t size, int flags)
-{
+int unreliable_setxattr(const char *path, const char *name, const char *value, size_t size, int flags) {
     int ret = error_inject(path, OP_SETXATTR);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -411,21 +326,10 @@ int unreliable_setxattr(const char *path, const char *name,
         return ret;
     }
 
-#ifdef __APPLE__
-    ret = setxattr(path, name, value, size, 0, flags);
-#else
-    ret = setxattr(path, name, value, size, flags);
-#endif /* __APPLE__ */
-    if (ret == -1) {
-        return -errno;
-    }
-
-    return 0;
+    return connect_grpc_fuse_setxattr(path, name, value, size, flags);
 }
 
-int unreliable_getxattr(const char *path, const char *name,
-                        char *value, size_t size)
-{
+int unreliable_getxattr(const char *path, const char *name, char *value, size_t size) {
     int ret = error_inject(path, OP_GETXATTR);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -433,20 +337,10 @@ int unreliable_getxattr(const char *path, const char *name,
         return ret;
     }
 
-#ifdef __APPLE__
-    ret = getxattr(path, name, value, size, 0, XATTR_NOFOLLOW);
-#else
-    ret = getxattr(path, name, value, size);
-#endif /* __APPLE__ */
-    if (ret == -1) {
-        return -errno;
-    }
-    
-    return 0;
+    return connect_grpc_fuse_getxattr(path, name, value, size);
 }
 
-int unreliable_listxattr(const char *path, char *list, size_t size)
-{
+int unreliable_listxattr(const char *path, char *list, size_t size) {
     int ret = error_inject(path, OP_LISTXATTR);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -454,20 +348,12 @@ int unreliable_listxattr(const char *path, char *list, size_t size)
         return ret;
     }
 
-#ifdef __APPLE__
-    ret = listxattr(path, list, size, XATTR_NOFOLLOW);
-#else
-    ret = listxattr(path, list, size);
-#endif /* __APPLE__ */
-    if (ret == -1) {
-        return -errno;
-    }
-    
+    connect_grpc_fuse_listxattr(path, list, size);
+
     return ret;
 }
 
-int unreliable_removexattr(const char *path, const char *name)
-{
+int unreliable_removexattr(const char *path, const char *name) {
     int ret = error_inject(path, OP_REMOVEXATTR);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -475,21 +361,11 @@ int unreliable_removexattr(const char *path, const char *name)
         return ret;
     }
 
-#ifdef __APPLE__
-    ret = removexattr(path, name, XATTR_NOFOLLOW);
-#else
-    ret = removexattr(path, name);
-#endif /* __APPLE__ */
-    if (ret == -1) {
-        return -errno;
-    }
-    
-    return 0;    
+    return connect_grpc_fuse_removexattr(path, name);
 }
 #endif /* HAVE_XATTR */
 
-int unreliable_opendir(const char *path, struct fuse_file_info *fi)
-{
+int unreliable_opendir(const char *path, struct fuse_file_info *fi) {
     int ret = error_inject(path, OP_OPENDIR);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -497,14 +373,7 @@ int unreliable_opendir(const char *path, struct fuse_file_info *fi)
         return ret;
     }
 
-    DIR *dir = opendir(path);
-
-    if (!dir) {
-        return -errno;
-    }
-    fi->fh = (int64_t) dir;
-
-    return 0;    
+    return connect_grpc_fuse_opendir(path, fi);
 }
 
 int unreliable_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
@@ -517,7 +386,7 @@ int unreliable_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
         return ret;
     }
 
-    DIR *dp = opendir(path);
+    /*DIR *dp = opendir(path);
     if (dp == NULL) {
 	return -errno;
     }
@@ -534,13 +403,14 @@ int unreliable_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
         if (filler(buf, de->d_name, &st, 0))
             break;
     }
-    closedir(dp);
+    closedir(dp);*/
 
-    return 0;
+
+    //return 0;
+    return connect_grpc_fuse_readdir(path, buf, filler, offset, fi);
 }
 
-int unreliable_releasedir(const char *path, struct fuse_file_info *fi)
-{
+int unreliable_releasedir(const char *path, struct fuse_file_info *fi) {
     int ret = error_inject(path, OP_RELEASEDIR);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -548,18 +418,10 @@ int unreliable_releasedir(const char *path, struct fuse_file_info *fi)
         return ret;
     }
 
-    DIR *dir = (DIR *) fi->fh;
-
-    ret = closedir(dir);
-    if (ret == -1) {
-        return -errno;
-    }
-    
-    return 0;    
+    return connect_grpc_fuse_releasedir(path, fi);
 }
 
-int unreliable_fsyncdir(const char *path, int datasync, struct fuse_file_info *fi)
-{
+int unreliable_fsyncdir(const char *path, int datasync, struct fuse_file_info *fi) {
     int ret = error_inject(path, OP_FSYNCDIR);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -567,39 +429,10 @@ int unreliable_fsyncdir(const char *path, int datasync, struct fuse_file_info *f
         return ret;
     }
 
-    DIR *dir = opendir(path);
-    if (!dir) {
-        return -errno;
-    }
-
-    if (datasync) {
-        ret = fdatasync(dirfd(dir));
-        if (ret == -1) {
-            return -errno;
-        }
-    } else {
-        ret = fsync(dirfd(dir));
-        if (ret == -1) {
-            return -errno;
-        }
-    }
-    closedir(dir);
-
-    return 0;
+    return connect_grpc_fuse_fsyncdir(path, datasync, fi);
 }
 
-void *unreliable_init(struct fuse_conn_info *conn)
-{
-    return NULL;
-}
-
-void unreliable_destroy(void *private_data)
-{
-
-}
-
-int unreliable_access(const char *path, int mode)
-{
+int unreliable_access(const char *path, int mode) {
     int ret = error_inject(path, OP_ACCESS);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -607,14 +440,8 @@ int unreliable_access(const char *path, int mode)
         return ret;
     }
 
-    ret = access(path, mode); 
-    if (ret == -1) {
-        return -errno;
-    }
-    
-    return 0;
+    return connect_grpc_fuse_access(path, mode);
 }
-
 int unreliable_create(const char *path, mode_t mode,
                       struct fuse_file_info *fi)
 {
@@ -625,18 +452,16 @@ int unreliable_create(const char *path, mode_t mode,
         return ret;
     }
 
-    ret = open(path, fi->flags, mode);
+    /*ret = open(path, fi->flags, mode);
     if (ret == -1) {
         return -errno;
     }
-    fi->fh = ret;
-
-    return 0;    
+    fi->fh = ret;*/
+    return connect_grpc_fuse_create(path, mode, fi);
+    //return 0;    
 }
 
-int unreliable_ftruncate(const char *path, off_t length,
-                         struct fuse_file_info *fi)
-{
+int unreliable_ftruncate(const char *path, off_t length, struct fuse_file_info *fi) {
     int ret = error_inject(path, OP_FTRUNCATE);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -644,17 +469,10 @@ int unreliable_ftruncate(const char *path, off_t length,
         return ret;
     }
 
-    ret = truncate(path, length);
-    if (ret == -1) {
-        return -errno;
-    }
-    
-    return 0;    
+    return connect_grpc_fuse_ftruncate(path, length, fi);
 }
 
-int unreliable_fgetattr(const char *path, struct stat *buf,
-                        struct fuse_file_info *fi)
-{
+int unreliable_fgetattr(const char *path, struct stat *buf, struct fuse_file_info *fi) {
     int ret = error_inject(path, OP_FGETATTR);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -662,17 +480,10 @@ int unreliable_fgetattr(const char *path, struct stat *buf,
         return ret;
     }
 
-    ret = fstat((int) fi->fh, buf);
-    if (ret == -1) {
-        return -errno;
-    }
-    
-    return 0;    
+    return connect_grpc_fuse_fgetattr(path, buf, fi);
 }
 
-int unreliable_lock(const char *path, struct fuse_file_info *fi, int cmd,
-                    struct flock *fl)
-{
+int unreliable_lock(const char *path, struct fuse_file_info *fi, int cmd, struct flock *fl) {
     int ret = error_inject(path, OP_LOCK);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -680,19 +491,18 @@ int unreliable_lock(const char *path, struct fuse_file_info *fi, int cmd,
         return ret;
     }
 
-    ret = fcntl((int) fi->fh, cmd, fl);
-    if (ret == -1) {
-        return -errno;
-    }
+    return connect_grpc_fuse_lock(path, fi, cmd, fl);
+}
 
-    return 0;
+void *unreliable_init(struct fuse_conn_info *conn) {
+    return NULL;
+}
+
+void unreliable_destroy(void *private_data) {
 }
 
 #if !defined(__OpenBSD__)
-int unreliable_ioctl(const char *path, int cmd, void *arg,
-                     struct fuse_file_info *fi,
-                     unsigned int flags, void *data)
-{
+int unreliable_ioctl(const char *path, int cmd, void *arg, struct fuse_file_info *fi, unsigned int flags, void *data) {
     int ret = error_inject(path, OP_IOCTL);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -700,18 +510,12 @@ int unreliable_ioctl(const char *path, int cmd, void *arg,
         return ret;
     }
 
-    ret = ioctl(fi->fh, cmd, arg);
-    if (ret == -1) {
-        return -errno;
-    }
-    
-    return ret;
+    return connect_grpc_fuse_ioctl(path, cmd, arg, fi, flags, data);
 }
 #endif /* __OpenBSD__ */
 
 #ifdef HAVE_FLOCK
-int unreliable_flock(const char *path, struct fuse_file_info *fi, int op)
-{
+int unreliable_flock(const char *path, struct fuse_file_info *fi, int op) {
     int ret = error_inject(path, OP_FLOCK);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -719,20 +523,12 @@ int unreliable_flock(const char *path, struct fuse_file_info *fi, int op)
         return ret;
     }
 
-    ret = flock(((int) fi->fh), op);
-    if (ret == -1) {
-        return -errno;
-    }
-    
-    return 0;    
+    return connect_grpc_fuse_flock(path, fi, op);
 }
 #endif /* HAVE_FLOCK */
 
 #ifdef HAVE_FALLOCATE
-int unreliable_fallocate(const char *path, int mode,
-                         off_t offset, off_t len,
-                         struct fuse_file_info *fi)
-{
+int unreliable_fallocate(const char *path, int mode, off_t offset, off_t len, struct fuse_file_info *fi) {
     int ret = error_inject(path, OP_FALLOCATE);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -740,39 +536,12 @@ int unreliable_fallocate(const char *path, int mode,
         return ret;
     }
 
-    int fd;
-    (void) fi;
-
-    if (mode) {
-	return -EOPNOTSUPP;
-    }
-
-    if(fi == NULL) {
-	fd = open(path, O_WRONLY);
-    } else {
-	fd = fi->fh;
-    }
-
-    if (fd == -1) {
-	return -errno;
-    }
-
-    ret = fallocate((int) fi->fh, mode, offset, len);
-    if (ret == -1) {
-        return -errno;
-    }
-
-    if(fi == NULL) {
-	close(fd);
-    }
-    
-    return 0;    
+    return connect_grpc_fuse_fallocate(path, mode, offset, len, fi);
 }
 #endif /* HAVE_FALLOCATE */
 
 #ifdef HAVE_UTIMENSAT
-int unreliable_utimens(const char *path, const struct timespec ts[2])
-{
+int unreliable_utimens(const char *path, const struct timespec ts[2]) {
     int ret = error_inject(path, OP_UTIMENS);
     if (ret == -ERRNO_NOOP) {
         return 0;
@@ -780,12 +549,6 @@ int unreliable_utimens(const char *path, const struct timespec ts[2])
         return ret;
     }
 
-    /* don't use utime/utimes since they follow symlinks */
-    ret = utimensat(0, path, ts, AT_SYMLINK_NOFOLLOW);
-    if (ret == -1) {
-        return -errno;
-    }
-
-    return 0;
+    return connect_grpc_fuse_utimens(path, ts);
 }
 #endif /* HAVE_UTIMENSAT */

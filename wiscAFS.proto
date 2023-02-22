@@ -13,6 +13,7 @@ service WiscAFS {
     rpc ReadDir (ReadDirReq) returns (stream ReadDirReply) {}
     rpc MkDir (MkDirReq) returns (MkDirReply) {}
     rpc RmDir (RmDirReq) returns (RmDirReply) {}
+    rpc Unlink (UnlinkReq) returns (UnlinkReply) {}
     rpc SayHello (HelloRequest) returns (HelloReply) {}
 
 }
@@ -52,8 +53,9 @@ message GetAttrReq {
 }
 
 message GetAttrReply {
-    bytes  buf = 2; // stat
     int32 err = 1;
+    bytes  buf = 2; // stat
+    int32 status = 3;
 }
 
 message OpenReq {
@@ -90,6 +92,13 @@ message WriteReply {
     int32 num_bytes = 1;
 }
 
+message UnlinkReq {
+    string path = 1;
+}
+
+message UnlinkReply {
+    int32 status = 1;
+}
 message HelloRequest {
   string name = 1;
 }
