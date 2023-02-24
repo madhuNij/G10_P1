@@ -13,7 +13,7 @@ using namespace std;
 namespace fs = experimental::filesystem;
 
 string cacheRootPath = "/users/pmurugan/cache/tmp/ps/";
-
+int dirtyBit = 0;
 
 void createCacheDirectory() {
     fs::create_directories(cacheRootPath) == true ? cout << "\ncache directory created!\n" : cout << "\nCache directory already exists on client side !\n";
@@ -40,4 +40,18 @@ int createLocalCacheFile(string path, string contents) {
         std::ofstream tempfile(cachePath);
         tempfile << contents; 
         tempfile.close();
+}
+
+void setDirty(){
+    dirtyBit=1;
+}
+void resetDirty(){
+    dirtyBit=0;
+}
+
+int isDirty(){
+    if(dirtyBit==1)
+        return 1;
+    else    
+        return 0;
 }
