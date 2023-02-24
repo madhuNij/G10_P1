@@ -189,17 +189,28 @@ int connect_grpc_fuse_open(const char *path, struct fuse_file_info *fi)
     struct stat localAttr, serverAttr;
     bool isValidCache = true;
 
-    // int lstatValue = lstat(cachePath.c_str(), &localAttr);
-  
+    int lstatValue = lstat(cachePath.c_str(), &localAttr);
     attrRet = client.GetAttr(_path, &serverAttr, errornum);
-    // if (attrRet != 0)
-    //   goto FetchToCache;
-
-    if (serverAttr.st_mtime > localAttr.st_mtime) {
+    int serverTime = serverAttr.st_mtime;
+    int cacheTime = localAttr.st_mtime;
+    if (serverTime > cacheTime) {
       isValidCache = false; 
     }
+    if (isValidCache) {
+      cout << "\n Opening cache file\n";
+      cout << "\n path ---> " <<  _path <<endl;
+      string cachePath = getCacheFilePath(_path);
+      cout << "\ncache path ---> " <<  cachePath <<endl;
+      // printf ("\ncache path ---> %s", cachePath);
+      ret = open(cachePath.c_str(), 0); 
+      if (ret == -1) {
+          return -errno;
+      }
+      // fi->fh = ret;
+    }
 
-    if (( !localCopyExists(_path) || attrRet != 0 ) && !isValidCache) {
+    // if ( !localCopyExists(_path)) {
+    else {
       cout << "\n Opening server file\n";
       ret = client.Open(_path, O_RDWR | O_CREAT | S_IRWXU);
       // if (ret != 0) return ret;
@@ -213,16 +224,16 @@ int connect_grpc_fuse_open(const char *path, struct fuse_file_info *fi)
       string cachePath = getCacheFilePath(_path);
       // ret = open(cachePath.c_str() , S_IRWXG | S_IRWXO | S_IRWXU); 
       ret = open(cachePath.c_str(), 0);
-    } else {
-      cout << "\n Opening cache file\n";
-      cout << "\n path ---> " <<  _path <<endl;
-      string cachePath = getCacheFilePath(_path);
-      cout << "\ncache path ---> " <<  cachePath <<endl;
-      // printf ("\ncache path ---> %s", cachePath);
-      ret = open(cachePath.c_str(), 0); 
-      if (ret == -1) {
-          return -errno;
-      }
+    // } else {
+    //   cout << "\n Opening cache file\n";
+    //   cout << "\n path ---> " <<  _path <<endl;
+    //   string cachePath = getCacheFilePath(_path);
+    //   cout << "\ncache path ---> " <<  cachePath <<endl;
+    //   // printf ("\ncache path ---> %s", cachePath);
+    //   ret = open(cachePath.c_str(), 0); 
+    //   if (ret == -1) {
+    //       return -errno;
+    //   }
     }
     cout << "\nopen ret : " << ret << endl;
     fi->fh = ret;
