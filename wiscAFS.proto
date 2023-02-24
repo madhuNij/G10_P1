@@ -80,6 +80,7 @@ message ReadReq {
 message ReadReply {
     int32 num_bytes = 1;
     bytes buf  = 2;
+    int32 status = 3;
 }
 
 // Write StreaFile in stream modeming

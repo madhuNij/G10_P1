@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-string hostport = "128.105.144.73:50051";
+string hostport = "128.105.144.70:50051";
 
 // all of your legacy C code here
 //GetAttr
@@ -179,15 +179,33 @@ int connect_grpc_fuse_open(const char *path, struct fuse_file_info *fi)
 {
     std::cout << "connect GRPC FUSE open" << std::endl;
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
-    int ret;
+    // int ret;
+    // const std::string _path(path);
+    // if (!localCopyExists(_path)) {
+      int ret, attrRet, errornum;;
     const std::string _path(path);
-    if (!localCopyExists(_path)) {
+    string cachePath = getCacheFilePath(_path);
+
+    struct stat localAttr, serverAttr;
+    bool isValidCache = true;
+
+    // int lstatValue = lstat(cachePath.c_str(), &localAttr);
+  
+    attrRet = client.GetAttr(_path, &serverAttr, errornum);
+    // if (attrRet != 0)
+    //   goto FetchToCache;
+
+    if (serverAttr.st_mtime > localAttr.st_mtime) {
+      isValidCache = false; 
+    }
+
+    if (( !localCopyExists(_path) || attrRet != 0 ) && !isValidCache) {
       cout << "\n Opening server file\n";
       ret = client.Open(_path, O_RDWR | O_CREAT | S_IRWXU);
       // if (ret != 0) return ret;
       std::string _buf;
-      int size;
-      int offset;
+      int size = 0;
+      int offset = 0;
       ret = client.Read(_path, _buf, size, offset);
       // if (ret != 0) return ret;
       cout << "\n buf contents ---->" << _buf;
@@ -218,18 +236,33 @@ int connect_grpc_fuse_read(const char *path, char *buf, size_t size, off_t offse
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
     int ret, fd;
+    //fd = fi->fh;
+
+
+    if (fi == NULL) {
+    cout << "fh requested from open " << endl;
+
+    fi = new fuse_file_info();
+    fi->flags = O_RDONLY;
+    fd = connect_grpc_fuse_open(path, fi);
+    
+  } else {
+    cout  << "fh already given fh " << fi->fh  << endl;
     fd = fi->fh;
+  }
 
     if (fd == -1) {
       return -errno;
     }
-    ret = read(fi->fh, buf, 100);
+    ret = pread(fd, buf, size, offset);
+    
+    //ret = read(fi->fh, buf, 100);
     // buf[ret] = '\0';
     
     if (ret == -1) {
         ret = -errno;
     }
-    close(fd);
+    //close(fd);
 
     return ret;
 }
@@ -261,17 +294,35 @@ int connect_grpc_fuse_write(const char *path, const char *buf, size_t size,
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
     std::string _buf(buf);
-    cout << "\nret before write----->"  <<fi->fh<< endl;
+    int flag=0;
+    // if(_buf==NULL){
+    //   break;
+    // }
+    // cout << "\nret before write----->"  <<fi->fh<< endl;
     cout << "\nwrite buf ----->"  <<_buf<< endl;
-    int ret = client.Write(_path, _buf, (int)size, (int)offset);
+    //int ret = client.Write(_path, _buf, (int)size, (int)offset);
+    // if(fi == NULL){
+    //   fi = new fuse_file_info();
+    //   fi->flags = O_WRONLY;
+    //   flag=1;
+    // }
+    //int ret = connect_grpc_fuse_open(path, fi);
+    // cout<< "\nret on write: "<<ret;
+    // if(ret==-1)
+    //   return -errno;
+    string cachePath = getCacheFilePath(_path);
+    fi->fh = open(cachePath.c_str(),O_RDWR | O_APPEND);
+    int ret = pwrite(fi->fh, buf, sizeof(buf), offset);
+    //TODO: dirty bit for release
+    if(ret==-1)
+      return -errno;
     cout << "\nwrite buf ----->"  <<_buf<< endl;
     string tempbuf = buf;
      cout << "\ntemp buf ----->"  <<buf<< endl;
     cout << "write ret---->" << ret <<endl << "offset ---> " << (int)offset;
-    //ret = pwrite(fd, buf, size, offset);
-    if (ret == -1) {
-        ret = -errno;
-    }
+    //int ret = pwrite(fd, buf, size, offset);
+    // if(flag==1)
+    //   delete fi;
 
     return ret;
 }
@@ -450,12 +501,12 @@ int connect_grpc_fuse_opendir(const char* path, struct fuse_file_info* fi) {
 
   //path = Utility::constructRelativePath(path).c_str();
 
-  DIR* dir = opendir(path);
+  //DIR* dir = opendir(path);
 
-  if (!dir) {
-    return -errno;
-  }
-  fi->fh = (int64_t)dir;
+  //if (!dir) {
+  //  return -errno;
+  //}
+  //fi->fh = (int64_t)dir;
 
   return 0;
 }
