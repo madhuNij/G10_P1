@@ -35,11 +35,9 @@ string getCacheFilePath(string path) {
 int createLocalCacheFile(string path, string contents) {
     // if (!localCopyExists(path)) {
         cout << "\ncreating local copy\n" ;
-        ofstream MyFile(getCacheFilePath(path));
-        MyFile << contents;
-        MyFile.close();
-        return 0;
-    // } 
-    // cout << "\ndidn't create" ;
-    // return -1;
+        string cachePath = getCacheFilePath(path);
+
+        std::ofstream tempfile(cachePath);
+        tempfile << contents; 
+        tempfile.close();
 }

@@ -108,8 +108,11 @@ int WiscAFSClient::Read(const string &path, string &buf, int size, int offset){
     cout << "Read Size:" << size << "Read Path:" << path << endl;
     cout << "Read Buf:" << buf;
     Status status = reader->Finish();
+
+    if (reply.status() != 0)
+     return reply.status();
     cout << "\nread reply error ----> " << reply.num_bytes() << endl;
-    return status.ok() ? reply.num_bytes() : -1;
+    return status.ok() ? 0 : -1;
 }
 
 int WiscAFSClient::Write(const std::string &path, string& data, int size, int offset){
