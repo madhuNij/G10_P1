@@ -26,7 +26,7 @@ extern "C" {
 #endif
 
 // all of your legacy C code here
-
+int connect_grpc_fuse_initialize();
 int connect_grpc_fuse_getattr(const char *path, struct stat *buf);
 int connect_grpc_fuse_open(const char *path, struct fuse_file_info *fi);
 int connect_grpc_fuse_read(const char *path, char *buf, size_t size, off_t offset,

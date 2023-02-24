@@ -2,18 +2,27 @@
 #include "./connect_grpc_fuse.h"
 #include "wiscAFS_client.h"
 #include <fuse.h>
+#include "CacheUtil.cpp" 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+string hostport = "128.105.144.73:50051";
+
 // all of your legacy C code here
 //GetAttr
+
+int connect_grpc_fuse_initialize() {
+  cout << "\nInitialize";
+  createCacheDirectory();
+  // client = grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials());
+  return 0;
+}
+
 int connect_grpc_fuse_getattr(const char *path, struct stat *buf)
 {
-    string hostport;
     int errornum;
     std::cout << "connect GRPC FUSE getattr" << std::endl;
-    hostport = "128.105.144.70:50051";
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
     std::memset(buf, 0, sizeof(struct stat));
@@ -70,7 +79,6 @@ int connect_grpc_fuse_mknod(const char* path, mode_t mode, dev_t dev) {
 //unlink
 int connect_grpc_fuse_unlink(const char* path) {
   std::cout  << "\nconnect_grpc_fuse_unlink" << std::endl;
-  string hostport = "128.105.144.70:50051";
   WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
  // std::string _path = Utility::constructRelativePath(path);
   int ret;
@@ -169,37 +177,59 @@ int connect_grpc_fuse_truncate(const char* path, off_t length) {
 //Open
 int connect_grpc_fuse_open(const char *path, struct fuse_file_info *fi)
 {
-    string hostport;
     std::cout << "connect GRPC FUSE open" << std::endl;
-    hostport = "128.105.144.70:50051";
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     int ret;
     const std::string _path(path);
-    ret = client.Open(_path, O_RDWR | O_CREAT | S_IRWXU);
-    //ret = open(path, fi->flags);
-    if (ret == -1) {
-        return -errno;
+    if (!localCopyExists(_path)) {
+      cout << "\n Opening server file\n";
+      ret = client.Open(_path, O_RDWR | O_CREAT | S_IRWXU);
+      // if (ret != 0) return ret;
+      std::string _buf;
+      int size;
+      int offset;
+      ret = client.Read(_path, _buf, size, offset);
+      // if (ret != 0) return ret;
+      cout << "\n buf contents ---->" << _buf;
+      createLocalCacheFile(_path, _buf);
+      string cachePath = getCacheFilePath(_path);
+      // ret = open(cachePath.c_str() , S_IRWXG | S_IRWXO | S_IRWXU); 
+      ret = open(cachePath.c_str(), 0);
+    } else {
+      cout << "\n Opening cache file\n";
+      cout << "\n path ---> " <<  _path <<endl;
+      string cachePath = getCacheFilePath(_path);
+      cout << "\ncache path ---> " <<  cachePath <<endl;
+      // printf ("\ncache path ---> %s", cachePath);
+      ret = open(cachePath.c_str(), 0); 
+      if (ret == -1) {
+          return -errno;
+      }
     }
+    cout << "\nopen ret : " << ret << endl;
     fi->fh = ret;
-
     return 0;
 }
 //Read
 int connect_grpc_fuse_read(const char *path, char *buf, size_t size, off_t offset,
                     struct fuse_file_info *fi)
 {
-    string hostport;
     std::cout << "connect GRPC FUSE read" << std::endl;
-    hostport = "128.105.144.70:50051";
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
-    std::string _buf(buf);
-    int ret = client.Read(_path, _buf, (int)size, (int)offset);
-    //ret = pread(fd, buf, size, offset);
-    cout<<"buffer contents: "<<_buf;
+    int ret, fd;
+    fd = fi->fh;
+
+    if (fd == -1) {
+      return -errno;
+    }
+    ret = read(fi->fh, buf, 100);
+    // buf[ret] = '\0';
+    
     if (ret == -1) {
         ret = -errno;
     }
+    close(fd);
 
     return ret;
 }
@@ -207,9 +237,7 @@ int connect_grpc_fuse_read(const char *path, char *buf, size_t size, off_t offse
 int connect_grpc_fuse_create(const char *path, mode_t mode,
                       struct fuse_file_info *fi){
     
-    string hostport;
-    std::cout << "connect GRPC FUSE read" << std::endl;
-    hostport = "128.105.144.70:50051";
+    std::cout << "\nconnect GRPC FUSE read\n" << std::endl;
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
     int ret;
@@ -229,13 +257,17 @@ int connect_grpc_fuse_create(const char *path, mode_t mode,
 int connect_grpc_fuse_write(const char *path, const char *buf, size_t size,
                      off_t offset, struct fuse_file_info *fi)
 {
-    string hostport;
     std::cout << "connect GRPC FUSE write" << std::endl;
-    hostport = "128.105.144.70:50051";
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
     std::string _buf(buf);
+    cout << "\nret before write----->"  <<fi->fh<< endl;
+    cout << "\nwrite buf ----->"  <<_buf<< endl;
     int ret = client.Write(_path, _buf, (int)size, (int)offset);
+    cout << "\nwrite buf ----->"  <<_buf<< endl;
+    string tempbuf = buf;
+     cout << "\ntemp buf ----->"  <<buf<< endl;
+    cout << "write ret---->" << ret <<endl << "offset ---> " << (int)offset;
     //ret = pwrite(fd, buf, size, offset);
     if (ret == -1) {
         ret = -errno;
@@ -260,7 +292,7 @@ int connect_grpc_fuse_statfs(const char* path, struct statvfs* buf) {
 int connect_grpc_fuse_flush(const char* path, struct fuse_file_info* fi) {
   std::cout << "\nconnect_grpc_fuse_flush" << std::endl;
 
-  //path = Utility::constructRelativePath(path).c_str();
+  path = getCacheFilePath(path).c_str();
 
   int ret = close(dup(fi->fh));
   if (ret == -1) {
@@ -273,9 +305,7 @@ int connect_grpc_fuse_flush(const char* path, struct fuse_file_info* fi) {
 //MkDir
 int connect_grpc_fuse_mkdir(const char *path, mode_t mode)
 {
-    string hostport;
     std::cout << "connect GRPC FUSE mkdir" << std::endl;
-    hostport = "128.105.144.70:50051";
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
     int ret;
@@ -289,9 +319,7 @@ int connect_grpc_fuse_mkdir(const char *path, mode_t mode)
 //RmDir
 int connect_grpc_fuse_rmdir(const char *path)
 {
-    string hostport;
     std::cout << "connect GRPC FUSE rmdir" << std::endl;
-    hostport = "128.105.144.70:50051";
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
     int ret;
@@ -507,10 +535,11 @@ int connect_grpc_fuse_ftruncate(const char* path, off_t length, struct fuse_file
 }
 
 int connect_grpc_fuse_fgetattr(const char* path, struct stat* buf, struct fuse_file_info* fi) {
-  std::cout << "\nconnect_grpc_fuse_fgetattr" << std::endl;
+  std::cout << "\nconnect_grpc_fuse_fgetattr\n" << std::endl;
 
-  //path = Utility::constructRelativePath(path).c_str();
-  cout<<" path in fgetaatr "<<path;
+  const std::string _path(path);
+  string cachePath = getCacheFilePath(_path).c_str();
+  cout<<" path in fgetaatr "<< cachePath;
   int ret = fstat((int)fi->fh, buf);
   if (ret == -1) {
     cout<<"\nin if ";
@@ -622,9 +651,7 @@ int connect_grpc_fuse_utimens(const char* path, const struct timespec ts[2]) {
 int connect_grpc_fuse_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                        off_t offset, struct fuse_file_info *fi)
 {
-    string hostport;
     std::cout << "connect GRPC FUSE rmdir" << std::endl;
-    hostport = "128.105.144.70:50051";
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
     //std::string _buf(buf);
