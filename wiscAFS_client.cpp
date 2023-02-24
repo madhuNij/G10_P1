@@ -72,6 +72,7 @@ int WiscAFSClient::GetAttr(const std::string &path, struct stat *sb, int &errorn
         cout << "Last file modification:   " << ctime(&sb->st_mtime) << endl;
        // cout << "Reply err:\n" << reply.err();
 
+
         cout<<"\n in successL- status: "<<reply.status()<<"\n error: "<<reply.err();
         return 0;
 }
@@ -83,7 +84,7 @@ int WiscAFSClient::Open(const string &path, int flag){
     OpenReply reply;
     ClientContext context;
     Status status = stub_->Open(&context, request, &reply);
-
+    cout << "\nopen reply error ----> " << reply.err() << endl;
     return status.ok() ? reply.err() : -1;
 }
 
@@ -107,7 +108,8 @@ int WiscAFSClient::Read(const string &path, string &buf, int size, int offset){
     cout << "Read Size:" << size << "Read Path:" << path << endl;
     cout << "Read Buf:" << buf;
     Status status = reader->Finish();
-    return status.ok() ? buf.size() : -1;
+    cout << "\nread reply error ----> " << reply.num_bytes() << endl;
+    return status.ok() ? reply.num_bytes() : -1;
 }
 
 int WiscAFSClient::Write(const std::string &path, string& data, int size, int offset){

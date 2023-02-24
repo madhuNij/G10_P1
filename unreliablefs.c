@@ -174,6 +174,8 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
+    connect_grpc_fuse_initialize();
+
     fprintf(stdout, "starting FUSE filesystem unreliablefs\n");
     int ret = fuse_main(args.argc, args.argv, &unreliable_ops, NULL);
 

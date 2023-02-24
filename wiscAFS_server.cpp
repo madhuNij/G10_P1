@@ -65,6 +65,7 @@ class WiscAFSImpl final : public WiscAFS::Service {
                 memcpy(&buf[0], &stbuf, buf.size());
                 response->set_buf(buf);
                 response->set_status(0); 
+                response->set_modified_time(stbuf.st_mtime);
             }    
             else{
                 response->set_err(errno);
