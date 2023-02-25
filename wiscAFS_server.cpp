@@ -9,7 +9,9 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <dirent.h>
-
+#include <fstream>
+#include <sstream>
+#include <string>
 #include <grpc++/grpc++.h>
 
 #include "wiscAFS.grpc.pb.h"
@@ -65,7 +67,6 @@ class WiscAFSImpl final : public WiscAFS::Service {
                 memcpy(&buf[0], &stbuf, buf.size());
                 response->set_buf(buf);
                 response->set_status(0); 
-                response->set_modified_time(stbuf.st_mtime);
             }    
             else{
                 response->set_err(errno);
@@ -86,8 +87,9 @@ class WiscAFSImpl final : public WiscAFS::Service {
 
             int res;
 
-            res = open(path.c_str(), (mode_t)request->flag(),S_IRWXG | S_IRWXO | S_IRWXU); 
-            if (res == -1) {
+            res = open(path.c_str(), (mode_t)request->flag(), S_IRWXG | S_IRWXO | S_IRWXU); 
+            //if (res == -1) {
+            if (res < 0) {
                 response->set_err(-errno);
                 return Status::OK;
             }
@@ -96,7 +98,7 @@ class WiscAFSImpl final : public WiscAFS::Service {
             return Status::OK;
         }
 
-        Status Read(ServerContext* context, const ReadReq* request,ServerWriter<ReadReply>* writer) override {
+        /*Status Read(ServerContext* context, const ReadReq* request,ServerWriter<ReadReply>* writer) override {
             ReadReply* reply = new ReadReply();
             reply->set_num_bytes(0);
             int res;
@@ -110,7 +112,73 @@ class WiscAFSImpl final : public WiscAFS::Service {
                 reply->set_num_bytes(-1);
                 return Status::OK;
             }
+            //if() >> ccheck file emoty if yes return
+            // fseek(fd, 0, SEEK_END);
+            // if (ftell(fd) == 0)
+            // {
+            //     reply->set_buf("");
+            //     reply->set_num_bytes(0);
+            //     reply->set_status(0);
+            //     writer->Write(*reply);
+            //     close(fd);
+            //     return Status::OK;
+            // }
+            string buf;
+            buf.resize(size);
+            cout << "Request size" <<size;
+            
+            int bytesRead = pread(fd, &buf[0], size, offset);
+            cout << "Bytes read:" <<bytesRead;
+            if (bytesRead != size) {
+                printf("Read: PREAD didn't read %d bytes from offset %d\n", size, offset);
+            } 
+            if (bytesRead == -1) {
+                cout<<"\nread errornum: "<<errno;
+                reply->set_status(-errno);
+            }
 
+            int remainBytes = bytesRead;
+            int curr = 0;
+            
+            while (remainBytes > 0) {
+                reply->set_buf(buf.substr(curr, std::min(BLOCK_SIZE, remainBytes)));
+                cout<<"reply->set_buf: "<<buf;
+                reply->set_num_bytes(std::min(BLOCK_SIZE, remainBytes));
+                curr += BLOCK_SIZE;
+                remainBytes -= BLOCK_SIZE;
+                writer->Write(*reply);
+            }
+            if(fd > 0)
+                close(fd);
+            return Status::OK;
+        }*/
+
+
+        Status Read(ServerContext* context, const ReadReq* request,ServerWriter<ReadReply>* writer) override {
+            ReadReply* reply = new ReadReply();
+            reply->set_num_bytes(0);
+            int res;
+            string path = root_path + request->path();
+            printf("Read stream path: %s \n", path.c_str());
+            //int size = request->size();
+            //int offset = request->offset();
+
+            int fd = open(path.c_str(), O_RDONLY);
+            if (fd == -1) {
+                reply->set_num_bytes(-1);
+                return Status::OK;
+            }
+            
+
+            //we need file size and then do one pread with whole size
+            // or
+            // while(not end of file)
+            // read a fized chunck 
+            // and send to client directly
+            int size=0, offset=0;
+            std::ifstream in(path, std::ifstream::ate | std::ifstream::binary);
+                    size= in.tellg(); 
+            cout<<"size of file: "<<size;
             string buf;
             buf.resize(size);
             cout << "Request size" <<size;
@@ -156,6 +224,7 @@ class WiscAFSImpl final : public WiscAFS::Service {
                     }
                     printf("Write stream path: %s \n", path.c_str());
                 }
+                cout<<"\nwrite buf --> "<<buf;
                 res = pwrite(fd, &buf[0], size, offset);
                 // pwrite returns -1 when error, and store type in errno
                 if (res == -1) {
@@ -173,50 +242,56 @@ class WiscAFSImpl final : public WiscAFS::Service {
             return Status::OK;
         }
 
-        Status ReadDir(ServerContext* context, const ReadDirReq* request, ServerWriter<ReadDirReply>* writer) override{
-            ReadDirReply *reply = new ReadDirReply();
-            string path = root_path + request->path();
-            printf("ReadDir: %s \n", path.c_str());
+       
 
-            DIR *dp;
-            struct dirent *de;
 
-            dp = opendir(path.c_str());
-            if (dp == NULL) {
-                reply->set_err(-errno);
-                return Status::OK;
-            }
-            std::vector<std::string> dirs;
-            while ((de = readdir(dp)) != NULL) {
-                std::string buf;
-                buf.resize(sizeof(struct dirent));
-                memcpy(&buf[0], de, buf.size());
-                dirs.push_back(buf);
-            }
-            closedir(dp);
-            for (auto dir: dirs){
-                reply->set_buf(dir);
-                writer->Write(*reply);
-            }
-            return Status::OK;
-        }    
-
-        Status MkDir(ServerContext* context, const MkDirReq* request, MkDirReply* response) override {
-            string path = root_path + request->path();
-            response->set_err(0);
-            printf("MkDir at path: %s \n", path.c_str());
-            int res;
-            res = mkdir(path.c_str(), (mode_t)request->mode());
-            if ( res!= 0){
-                printf("error");
-		        response->set_err(-errno);
-                return Status::OK;
-            }
-	    printf("success");
-            response->set_err(0);
-            return Status::OK;
     
-        }
+
+
+            Status ReadDir(ServerContext* context, const ReadDirReq* request, ServerWriter<ReadDirReply>* writer) override{
+                ReadDirReply *reply = new ReadDirReply();
+                string path = root_path + request->path();
+                printf("ReadDir: %s \n", path.c_str());
+
+                DIR *dp;
+                struct dirent *de;
+
+                dp = opendir(path.c_str());
+                if (dp == NULL) {
+                    reply->set_err(-errno);
+                    return Status::OK;
+                }
+                std::vector<std::string> dirs;
+                while ((de = readdir(dp)) != NULL) {
+                    std::string buf;
+                    buf.resize(sizeof(struct dirent));
+                    memcpy(&buf[0], de, buf.size());
+                    dirs.push_back(buf);
+                }
+                closedir(dp);
+                for (auto dir: dirs){
+                    reply->set_buf(dir);
+                    writer->Write(*reply);
+                }
+                return Status::OK;
+            }    
+
+            Status MkDir(ServerContext* context, const MkDirReq* request, MkDirReply* response) override {
+                string path = root_path + request->path();
+                response->set_err(0);
+                printf("MkDir at path: %s \n", path.c_str());
+                int res;
+                res = mkdir(path.c_str(), (mode_t)request->mode());
+                if ( res!= 0){
+                    printf("error");
+                    response->set_err(-errno);
+                    return Status::OK;
+                }
+            printf("success");
+                response->set_err(0);
+                return Status::OK;
+        
+            }
 
         Status RmDir(ServerContext* context, const RmDirReq* request, RmDirReply* response) {
             string path = root_path + request->path();

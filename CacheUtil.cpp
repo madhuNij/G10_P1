@@ -16,30 +16,28 @@ string cacheRootPath = "/users/pmurugan/cache/tmp/ps/";
 int dirtyBit = 0;
 
 void createCacheDirectory() {
-    fs::create_directories(cacheRootPath) == true ? cout << "\ncache directory created!\n" : cout << "\nCache directory already exists on client side !\n";
-}
-bool localCopyExists(string path) {
-    string filename = path.substr(path.find_last_of("/\\") + 1);
-    string cachePath = cacheRootPath + filename;
-    cout << fs::exists(cachePath);
-    return fs::exists(cachePath);
+    fs::create_directories(cacheRootPath) == true 
+        ? cout << "\n--- cache directory created! ---\n" 
+        : cout << "\n--- Cache directory already exists on client side! ---\n";
 }
 
 string getCacheFilePath(string path) {
     string filename = path.substr(path.find_last_of("/\\") + 1);
     string cachePath = cacheRootPath + filename;
-    //  cout << "\ncache path ---> " <<  cachePath <<endl;
     return cachePath;
 } 
 
-int createLocalCacheFile(string path, string contents) {
-    // if (!localCopyExists(path)) {
-        cout << "\ncreating local copy\n" ;
-        string cachePath = getCacheFilePath(path);
+bool localCopyExists(string path) {
+    string cachePath = getCacheFilePath(path);
+    return fs::exists(cachePath);
+}
 
-        std::ofstream tempfile(cachePath);
-        tempfile << contents; 
-        tempfile.close();
+int createLocalCacheFile(string path, string contents) {
+    cout << "\n--- creating local copy ---\n" ;
+    string cachePath = getCacheFilePath(path);
+    std::ofstream tempfile(cachePath);
+    tempfile << contents; 
+    tempfile.close();
 }
 
 void setDirty(){
@@ -50,8 +48,5 @@ void resetDirty(){
 }
 
 int isDirty(){
-    if(dirtyBit==1)
-        return 1;
-    else    
-        return 0;
+    return dirtyBit;
 }

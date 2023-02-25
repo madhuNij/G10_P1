@@ -10,71 +10,61 @@ int WiscAFSClient::GetAttr(const std::string &path, struct stat *sb, int &errorn
     GetAttrReply reply;
     ClientContext context;
     Status status = stub_->GetAttr(&context, request, &reply);
-    //cout << "Status:" << status.ok();
-    cout << "status: " << status.ok();
-
     if(!status.ok())
     {
-        cout << "Getattr status not ok\n";
         errornum = reply.err();
-        //cout<<"\n status: "<<reply.status()<<"\n error: "<<reply.err();
         return -1;
     }
     else if(reply.status()!=0){
-    //cout<<"\n status: "<<reply.status()<<"\n error: "<<reply.err();
-    errornum = reply.err();
-    return -1;
+        errornum = reply.err();
+        return -1;
     }
-        string buf = reply.buf();
+    string buf = reply.buf();
 
-        // print buf details using stat structure
-       // struct stat sb;
-        memcpy(sb, &buf[0],buf.size());
-        cout <<"File type:                ";
+    // print buf details using stat structure
+    // struct stat sb;
+    memcpy(sb, &buf[0],buf.size());
+    cout <<"\n--- File type: ";
 
-        switch (sb->st_mode & S_IFMT)
-        {
-        case S_IFBLK:
-            cout << "block device\n";
-            break;
-        case S_IFCHR:
-            cout << "character device\n";
-            break;
-        case S_IFDIR:
-            cout << "directory\n";
-            break;
-        case S_IFIFO:
-            cout << "FIFO/pipe\n";
-            break;
-        case S_IFLNK:
-            cout << "symlink\n";
-            break;
-        case S_IFREG:
-            cout << "regular file\n";
-            break;
-        case S_IFSOCK:
-            cout << "socket\n";
-            break;
-        default:
-            cout << "unknown?\n";
-            break;
-        }
+    switch (sb->st_mode & S_IFMT)
+    {
+    case S_IFBLK:
+        cout << "block device ---\n";
+        break;
+    case S_IFCHR:
+        cout << "character device ---\n";
+        break;
+    case S_IFDIR:
+        cout << "directory ---\n";
+        break;
+    case S_IFIFO:
+        cout << "FIFO/pipe ---\n";
+        break;
+    case S_IFLNK:
+        cout << "symlink ---\n";
+        break;
+    case S_IFREG:
+        cout << "regular file ---\n";
+        break;
+    case S_IFSOCK:
+        cout << "socket ---\n";
+        break;
+    default:
+        cout << "unknown? ---\n";
+        break;
+    }
 
-        cout << "I-node number:            " << (long)sb->st_ino << endl;
-        cout << "Mode:                      (octal) " << (unsigned long)sb->st_mode << endl;
-        cout << "Link count:               "<< (long)sb->st_nlink<<endl;
-        cout << "Ownership:                UID= " << (long)sb->st_uid << "GID= " << (long)sb->st_gid << endl;
-        cout << "Preferred I/O block size: bytes" << (long)sb->st_blksize << endl;
-        cout << "File size:                bytes" << (long long)sb->st_size << endl;
-        cout << "Blocks allocated:         %lld" << (long long)sb->st_blocks << endl;
-        cout << "Last status change:       " << ctime(&sb->st_ctime) << endl;
-        cout << "Last file access:         " << ctime(&sb->st_atime) << endl;
-        cout << "Last file modification:   " << ctime(&sb->st_mtime) << endl;
-       // cout << "Reply err:\n" << reply.err();
-
-
-        cout<<"\n in successL- status: "<<reply.status()<<"\n error: "<<reply.err();
-        return 0;
+    cout << "I-node number: " << (long)sb->st_ino << endl;
+    cout << "Mode: (octal) " << (unsigned long)sb->st_mode << endl;
+    cout << "Link count: "<< (long)sb->st_nlink<<endl;
+    cout << "Ownership: UID = " << (long)sb->st_uid << " GID= " << (long)sb->st_gid << endl;
+    cout << "Preferred I/O block size: bytes" << (long)sb->st_blksize << endl;
+    cout << "File size: bytes" << (long long)sb->st_size << endl;
+    cout << "Blocks allocated:  %lld" << (long long)sb->st_blocks << endl;
+    cout << "Last status change: " << ctime(&sb->st_ctime) << endl;
+    cout << "Last file access: " << ctime(&sb->st_atime) << endl;
+    cout << "Last file modification: " << ctime(&sb->st_mtime) << endl;
+    return 0;
 }
 
 int WiscAFSClient::Open(const string &path, int flag){
@@ -84,7 +74,6 @@ int WiscAFSClient::Open(const string &path, int flag){
     OpenReply reply;
     ClientContext context;
     Status status = stub_->Open(&context, request, &reply);
-    cout << "\nopen reply error ----> " << reply.err() << endl;
     return status.ok() ? reply.err() : -1;
 }
 
@@ -101,17 +90,10 @@ int WiscAFSClient::Read(const string &path, string &buf, int size, int offset){
     buf.reserve(size);
     while (reader->Read(&reply)) {
         buf += reply.buf();
-        if (reply.num_bytes() < 0) {
-            break;
-        }
+        if (reply.num_bytes() < 0) break;
     }
-    cout << "Read Size:" << size << "Read Path:" << path << endl;
-    cout << "Read Buf:" << buf;
     Status status = reader->Finish();
-
-    if (reply.status() != 0)
-     return reply.status();
-    cout << "\nread reply error ----> " << reply.num_bytes() << endl;
+    if (reply.status() != 0) return reply.status();
     return status.ok() ? 0 : -1;
 }
 
@@ -137,13 +119,11 @@ int WiscAFSClient::Write(const std::string &path, string& data, int size, int of
     
     writer->WritesDone();
     Status status = writer->Finish();
-    // cout << "\nWrite Status:" <<status << endl;
     return status.ok() ? reply.num_bytes() : -1;
 
 }
 
 int WiscAFSClient::ReadDir(const string& path, vector<string>& buf) {
-    cout << "In Read Dir" << endl;
     ReadDirReq request;
     request.set_path(path);
 
@@ -160,13 +140,10 @@ int WiscAFSClient::ReadDir(const string& path, vector<string>& buf) {
     }
 
     Status status = reader->Finish();
-    // cout << "In Read Dir status:" << status << endl;
-
     return status.ok() ? reply.err() : -1;
 }
 
 int WiscAFSClient::MkDir(const string& path, int mode) {
-    cout << "In Mkdir Dir:" << endl;
     MkDirReq request;
     request.set_path(path);
     request.set_mode((mode_t)mode);
@@ -218,28 +195,3 @@ string WiscAFSClient::SayHello(const std::string &user)
         return "RPC failed";
     }
 }
-
-
-
-// int main(int argc, char **argv)
-// {
-//     string hostport;
-//     if (argc > 1)
-//     {
-//         hostport = argv[1];
-//     }
-//     else
-//         hostport = "localhost:50051";
-//     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
-
-//     //============ For Testing=========
-//     const std::string path("/tmp/fs/test.txt");
-//     struct stat sb;
-//     std::string buf("I am written through grpc");
-//     cout<<"before call\n";
-//     //int reply = client.Write(path,buf,4096,0);
-//     //reply = client.Read(path,buf,4096,0);
-//     cout<<"after call\n";
-//     //std::cout << "received buffer: " << buf << std::endl;
-//     return 0;
-// }

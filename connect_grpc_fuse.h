@@ -70,8 +70,7 @@ int connect_grpc_fuse_lock(const char* path, struct fuse_file_info* fi, int cmd,
 int connect_grpc_fuse_ioctl(const char* path, int cmd, void* arg, struct fuse_file_info* fi, unsigned int flags, void* data);
 int connect_grpc_fuse_flock(const char* path, struct fuse_file_info* fi, int op);
 int connect_grpc_fuse_fallocate(const char* path, int mode, off_t offset, off_t len, struct fuse_file_info* fi);
-// 10. utime(self, path, times)
-int cppWrapper_utimens(const char* path, const struct timespec ts[2]);
+int connect_grpc_fuse_utimens(const char* path, const struct timespec ts[2]);
 #ifdef __cplusplus
 }
 
