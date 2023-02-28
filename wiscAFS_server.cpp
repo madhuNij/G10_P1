@@ -98,60 +98,6 @@ class WiscAFSImpl final : public WiscAFS::Service {
             return Status::OK;
         }
 
-        /*Status Read(ServerContext* context, const ReadReq* request,ServerWriter<ReadReply>* writer) override {
-            ReadReply* reply = new ReadReply();
-            reply->set_num_bytes(0);
-            int res;
-            string path = root_path + request->path();
-            printf("Read stream path: %s \n", path.c_str());
-            int size = request->size();
-            int offset = request->offset();
-
-            int fd = open(path.c_str(), O_RDONLY);
-            if (fd == -1) {
-                reply->set_num_bytes(-1);
-                return Status::OK;
-            }
-            //if() >> ccheck file emoty if yes return
-            // fseek(fd, 0, SEEK_END);
-            // if (ftell(fd) == 0)
-            // {
-            //     reply->set_buf("");
-            //     reply->set_num_bytes(0);
-            //     reply->set_status(0);
-            //     writer->Write(*reply);
-            //     close(fd);
-            //     return Status::OK;
-            // }
-            string buf;
-            buf.resize(size);
-            cout << "Request size" <<size;
-            
-            int bytesRead = pread(fd, &buf[0], size, offset);
-            cout << "Bytes read:" <<bytesRead;
-            if (bytesRead != size) {
-                printf("Read: PREAD didn't read %d bytes from offset %d\n", size, offset);
-            } 
-            if (bytesRead == -1) {
-                cout<<"\nread errornum: "<<errno;
-                reply->set_status(-errno);
-            }
-
-            int remainBytes = bytesRead;
-            int curr = 0;
-            
-            while (remainBytes > 0) {
-                reply->set_buf(buf.substr(curr, std::min(BLOCK_SIZE, remainBytes)));
-                cout<<"reply->set_buf: "<<buf;
-                reply->set_num_bytes(std::min(BLOCK_SIZE, remainBytes));
-                curr += BLOCK_SIZE;
-                remainBytes -= BLOCK_SIZE;
-                writer->Write(*reply);
-            }
-            if(fd > 0)
-                close(fd);
-            return Status::OK;
-        }*/
 
 
         Status Read(ServerContext* context, const ReadReq* request,ServerWriter<ReadReply>* writer) override {
@@ -170,11 +116,6 @@ class WiscAFSImpl final : public WiscAFS::Service {
             }
             
 
-            //we need file size and then do one pread with whole size
-            // or
-            // while(not end of file)
-            // read a fized chunck 
-            // and send to client directly
             int size=0, offset=0;
             std::ifstream in(path, std::ifstream::ate | std::ifstream::binary);
                     size= in.tellg(); 
@@ -243,9 +184,6 @@ class WiscAFSImpl final : public WiscAFS::Service {
         }
 
        
-
-
-    
 
 
             Status ReadDir(ServerContext* context, const ReadDirReq* request, ServerWriter<ReadDirReply>* writer) override{

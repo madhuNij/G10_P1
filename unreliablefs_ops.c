@@ -205,7 +205,7 @@ int unreliable_chmod(const char *path, mode_t mode)
     } else if (ret) {
         return ret;
     }
-    
+
 return connect_grpc_fuse_chmod(path, mode);
 }
 
@@ -387,27 +387,6 @@ int unreliable_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
         return ret;
     }
 
-    /*DIR *dp = opendir(path);
-    if (dp == NULL) {
-	return -errno;
-    }
-    struct dirent *de;
-
-    (void) offset;
-    (void) fi;
-
-    while ((de = readdir(dp)) != NULL) {
-        struct stat st;
-        memset(&st, 0, sizeof(st));
-        st.st_ino = de->d_ino;
-        st.st_mode = de->d_type << 12;
-        if (filler(buf, de->d_name, &st, 0))
-            break;
-    }
-    closedir(dp);*/
-
-
-    //return 0;
     return connect_grpc_fuse_readdir(path, buf, filler, offset, fi);
 }
 

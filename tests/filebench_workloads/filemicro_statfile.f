@@ -28,7 +28,7 @@
 # using $nthreads number of threads, doing "stat" calls on each file.
 #
 
-set $dir=/mnt/g10/tests/filebenchLog
+set $dir=/tmp/fs
 set $nfiles=20000
 set $meandirwidth=200
 set $filesize=128k

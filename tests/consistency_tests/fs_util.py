@@ -113,8 +113,9 @@ def start_another_client(host: str, test_case: int, client_id: str,
     send_signal(host, signal_fname)
     signal_exists = (not poll_signal_remove(host, signal_fname))
     assert signal_exists
-    script_name = f'/scripts/test{test_case}_client{client_id.upper()}.py'
-    ssh_cmd = f'source ~/739p1.env && python {script_name}'
+    script_name = f'~/scripts/test{test_case}_client{client_id.upper()}.py'
+
+    ssh_cmd = f'source ~/739p1.env && python3 {script_name}'
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     username = getpass.getuser()
@@ -199,10 +200,10 @@ def close_file(fd: int):
 def write_file(fd: int, w_str: str, start_off: int = -1) -> int:
     assert fd is not None
     w_bytes = bytes(w_str, 'utf-8')
-    if start_off >= 0:
-        ret = os.pwrite(fd, w_bytes, start_off)
-    else:
-        ret = os.write(fd, w_bytes)
+    #if start_off >= 0:
+    ret = os.pwrite(fd, w_bytes, 100)
+    #else:
+    #    ret = os.write(fd, w_bytes)
     return ret
 
 

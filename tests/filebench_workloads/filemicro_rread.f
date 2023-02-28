@@ -27,7 +27,7 @@
 # Single threaded random reads (2KB I/Os) on a 1GB file.
 # Stops after 128MB ($bytes) has been read.
 
-set $dir=/mnt/g10/tests/filebenchLog
+set $dir=/mnt/g10/bench
 set $bytes=128m
 set $cached=false
 set $filesize=4g

@@ -29,7 +29,7 @@
 # Does a fsync after 10 ($iters) appends.
 # Stops after 1GB ($bytes) has been appended/written.
 
-set $dir=/mnt/g10/tests/filebenchLog
+set $dir=/mnt/g10/bench
 set $bytes=1g
 set $iosize=1m
 set $iters=10

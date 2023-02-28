@@ -29,7 +29,7 @@
 # (i.e., 8MB written) fsync is called.
 # The run finishes after 1GB is fully written.
 
-set $dir=/mnt/g10/tests/filebenchLog
+set $dir=/mnt/g10/bench
 set $iosize=8k
 set $writeiters=1024
 set $fsynccount=128

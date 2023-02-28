@@ -3,7 +3,15 @@
 #include "wiscAFS_client.h"
 #include <fuse.h>
 #include <fstream>
+#include <chrono>
+#include <thread>
 #include "CacheUtil.cpp"
+#include <unistd.h>
+
+// using namespace std::this_thread;     // sleep_for, sleep_until
+// using namespace std::literals::chrono_literals;// using std::chrono::system_clock;
+
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -114,6 +122,12 @@ extern "C"
   int connect_grpc_fuse_rename(const char *oldpath, const char *newpath)
   {
     std::cout << "\n--- connect_grpc_fuse_rename ---\n";
+    const string _old(oldpath);
+    oldpath =getCacheFilePath(_old).c_str();
+    const string _new(newpath);
+    newpath =getCacheFilePath(_new).c_str();
+
+    cout << oldpath << newpath;
 
     int ret = rename(oldpath, newpath);
     if (ret == -1)
@@ -141,7 +155,7 @@ extern "C"
   {
     std::cout << "\n--- connect_grpc_fuse_chmod ---\n";
     const string _path(path);
-    path =getCacheFilePath(_path).c_str();
+    path = getCacheFilePath(_path).c_str();
     int ret = chmod(path, mode);
     if (ret < 0)
     {
@@ -310,8 +324,12 @@ extern "C"
     const std::string _path(path);
     std::string _buf(buf);
     string cachePath = getCacheFilePath(_path);
-    fi->fh = open(cachePath.c_str(), O_RDWR | O_APPEND);
+    fi->fh = open(cachePath.c_str(), O_RDWR );
+    
     int ret = pwrite(fi->fh, buf, size, offset);
+    //cout << "sleep start";
+    //this_thread::sleep_for(chrono::milliseconds(50000));
+    //#cout << "\n sleep end";
     // TODO: dirty bit for release
     setDirty();
     if (ret == -1)
@@ -340,6 +358,9 @@ extern "C"
     const string _path(path);
     path =getCacheFilePath(_path).c_str();
     int ret = close(dup(fi->fh));
+    // cout << "sleep start";
+    // this_thread::sleep_for(chrono::milliseconds(50000));
+    // cout << "\n sleep end";
     if (ret == -1)
     {
       return -errno;
@@ -355,6 +376,8 @@ extern "C"
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
     int ret;
+    string cacheRootPath = "/users/pmurugan/cache";
+    fs::create_directories(cacheRootPath + _path);
     ret = client.MkDir(_path, mode);
     if (ret == -1)
     {
@@ -370,6 +393,8 @@ extern "C"
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
     int ret;
+    // string cacheRootPath = "/users/pmurugan/cache";
+    // fs::remove(cacheRootPath + _path);
     ret = client.RmDir(_path);
     if (ret == -1)
     {
@@ -389,6 +414,9 @@ extern "C"
   }
   else
   {
+    // cout << "sleep start";
+    // this_thread::sleep_for(chrono::milliseconds(1000));
+    // cout << "\n sleep end";
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const string _path(path);
     string cachePath = getCacheFilePath(_path);
@@ -457,11 +485,11 @@ extern "C"
     path =getCacheFilePath(_path).c_str();
 
     int ret;
-#ifdef __APPLE__
-    ret = getxattr(path, name, value, size, 0, XATTR_NOFOLLOW);
-#else
+// #ifdef __APPLE__
+//     ret = getxattr(path, name, value, size, 0, XATTR_NOFOLLOW);
+// #else
     ret = getxattr(path, name, value, size);
-#endif /* __APPLE__ */
+// #endif /* __APPLE__ */
     if (ret == -1)
     {
       return -errno;
@@ -513,31 +541,21 @@ extern "C"
   {
     std::cout << "\n--- connect_grpc_fuse_opendir ---\n";
 
-    // path = Utility::constructRelativePath(path).c_str();
-
-    // DIR* dir = opendir(path);
-
-    // if (!dir) {
-    //   return -errno;
-    // }
-    // fi->fh = (int64_t)dir;
 
     return 0;
   }
 
   int connect_grpc_fuse_releasedir(const char *path, struct fuse_file_info *fi)
   {
-    std::cout << "\n--- connect_grpc_fuse_releasedir ---\n";
+    std::cout << "\n--- connect_grpc_fuse_releasedir ---\n"
 
-    // path = Utility::constructRelativePath(path).c_str();
+    DIR *dir = (DIR *)fi->fh;
 
-    //DIR *dir = (DIR *)fi->fh;
-
-    //int ret = closedir(dir);
-    // if (ret == -1)
-    // {
-    //   return -errno;
-    // }
+    int ret = closedir(dir);
+    if (ret == -1)
+    {
+      return -errno;
+    }
 
     return 0;
   }
@@ -545,8 +563,6 @@ extern "C"
   int connect_grpc_fuse_fsyncdir(const char *path, int datasync, struct fuse_file_info *fi)
   {
     std::cout << "\n--- connect_grpc_fuse_fsyncdir ---\n";
-
-    // path = Utility::constructRelativePath(path).c_str();
     const string _path(path);
     path =getCacheFilePath(_path).c_str();
     int ret;
@@ -576,13 +592,6 @@ extern "C"
   int connect_grpc_fuse_access(const char *path, int mode)
   {
     std::cout << "\n--- connect_grpc_fuse_access ---\n";
-    const string _path(path);
-    path =getCacheFilePath(_path).c_str();
-    int ret = access(path, mode);
-    if (ret == -1)
-    {
-      return -errno;
-    }
 
     return 0;
   }
@@ -703,11 +712,6 @@ extern "C"
   {
     cout << "\nutimens\n"; 
 
-      // int ret = utimensat(0, path, ts, AT_SYMLINK_NOFOLLOW);
-      // if (ret == -1)
-      // {
-      //   return -errno;
-      // }
 
       return 0;
   }
@@ -719,26 +723,6 @@ extern "C"
     std::cout << "connect GRPC FUSE rmdir ---\n";
     WiscAFSClient client(grpc::CreateChannel(hostport, grpc::InsecureChannelCredentials()));
     const std::string _path(path);
-    // std::string _buf(buf);
-
-    /*DIR *dp = opendir(path);
-    if (dp == NULL) {
-  return -errno;
-    }
-    struct dirent *de;
-
-    (void) offset;
-    (void) fi;
-
-    while ((de = readdir(dp)) != NULL) {
-        struct stat st;
-        memset(&st, 0, sizeof(st));
-        st.st_ino = de->d_ino;
-        st.st_mode = de->d_type << 12;
-        if (filler(buf, de->d_name, &st, 0))
-            break;
-    }
-    closedir(dp);*/
 
     struct dirent de;
     int errornum = 0;
@@ -764,6 +748,4 @@ extern "C"
 #ifdef __cplusplus
 }
 #endif
-/*int main(){
-    return 0;
-}*/
+

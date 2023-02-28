@@ -12,7 +12,7 @@
 using namespace std;
 namespace fs = experimental::filesystem;
 
-string cacheRootPath = "/users/pmurugan/cache/tmp/ps/";
+string cacheRootPath = "/users/pmurugan/cache";
 int dirtyBit = 0;
 
 void createCacheDirectory() {
@@ -22,8 +22,8 @@ void createCacheDirectory() {
 }
 
 string getCacheFilePath(string path) {
-    string filename = path.substr(path.find_last_of("/\\") + 1);
-    string cachePath = cacheRootPath + filename;
+    // string filename = path.substr(path.find_last_of("/\\") + 1);
+    string cachePath = cacheRootPath + path;
     return cachePath;
 } 
 

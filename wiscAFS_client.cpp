@@ -93,7 +93,7 @@ int WiscAFSClient::Read(const string &path, string &buf, int size, int offset){
         if (reply.num_bytes() < 0) break;
     }
     Status status = reader->Finish();
-    if (reply.status() != 0) return reply.status();
+    //if (reply.status() != 0) return reply.status();
     return status.ok() ? 0 : -1;
 }
 
