@@ -28,7 +28,7 @@
 # a 1GB file.
 # Stops after 1 series of 1024 ($count) writes has been done.
 
-set $dir=/mnt/g10/bench
+set $dir=$dir=/tmp/fs
 set $count=10240
 set $iosize=1m
 set $nthreads=1
@@ -46,4 +46,4 @@ define process name=filewriter,instances=1
 }
 
 echo  "FileMicro-SeqWrite Version 2.2 personality successfully loaded"
-run 10
+run 2

@@ -26,9 +26,9 @@
 
 # Single threaded sequential reads (1MB I/Os) on a 1G file.
 
-set $dir=/tmp/fs
+set $dir=$dir=/tmp/fs
 set $cached=false
-set $filesize=1g
+set $filesize=10m
 set $iosize=1m
 set $nthreads=1
 

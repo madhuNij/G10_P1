@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-775145b6a222f276220ae9d93f229e45 wiscAFS.pb.cc

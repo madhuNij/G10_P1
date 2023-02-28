@@ -24,7 +24,7 @@
 #
 # ident	"%Z%%M%	%I%	%E% SMI"
 
-set $dir=/mnt/g10/bench
+set $dir=$dir=/tmp/fs
 set $nfiles=10000
 set $filesize=16k
 set $dirwidth=200

@@ -23,7 +23,7 @@
 # Use is subject to license terms.
 #
 
-set $dir=/mnt/g10/bench
+set $dir=$dir=/tmp/fs
 set $nfiles=20000
 set $meandirwidth=200
 set $filesize=cvar(type=cvar-gamma,parameters=mean:16384;gamma:1.5)

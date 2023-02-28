@@ -4,3 +4,4 @@ wiscAFS_client
 wiscAFS_server
 wiscAFS
 *.o
+.vscode/

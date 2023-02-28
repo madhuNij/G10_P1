@@ -1,0 +1,15 @@
+Filebench Version 1.5-alpha3
+0.000: Allocated 177MB of shared memory
+0.001: FileMicro-SeqRead Version 2.1 personality successfully loaded
+0.001: Populating and pre-allocating filesets
+0.001: Reusing existing largefile tree
+0.001: Pre-allocating files in largefile tree
+0.475: Waiting for pre-allocation to finish (in case of a parallel pre-allocation)
+0.475: Population and pre-allocation of filesets completed
+0.475: Starting 1 filereader instances
+1.479: Running...
+11.481: Run took 10 seconds...
+11.481: Per-Operation Breakdown
+seqread-file         6372ops     637ops/s 636.7mb/s    0.156ms/op [0.001ms - 0.409ms]
+11.481: IO Summary: 6372 ops 637.175 ops/s 637/0 rd/wr 636.7mb/s 0.156ms/op
+11.481: Shutting down processes
